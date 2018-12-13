@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JpCrosswordSolverUI", "JpCrosswordSolverUI\JpCrosswordSolverUI.csproj", "{93701D63-2FAC-485A-B17D-92F98FE0D68A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaJpSolver", "JaJpSolver\JaJpSolver.csproj", "{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F01004F1-9101-4006-8EF6-B83B821937D4}
+	EndGlobalSection
+EndGlobal
