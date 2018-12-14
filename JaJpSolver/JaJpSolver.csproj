@@ -45,7 +45,9 @@
     <Compile Include="Common\Point.cs" />
     <Compile Include="Common\CellType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Task\CrossWordLineTask.cs" />
     <Compile Include="Task\CrossWordTask.cs" />
+    <Compile Include="Task\CrossWordTaskLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

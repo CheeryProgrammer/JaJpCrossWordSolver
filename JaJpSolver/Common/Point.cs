@@ -10,7 +10,7 @@
 		{
 			X = x;
 			Y = y;
-			PointType = CellType.None;
+			PointType = CellType.Empty;
 		}
 	}
 }
