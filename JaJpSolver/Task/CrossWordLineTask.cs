@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace JaJpSolver.Task
 {
-	public class CrossWordLineTask
+	public class CrossWordLineTask : IEnumerable<int>
 	{
 		private List<int> _groups;
+
+		public int Length => _groups.Count;
+
 		public int this[int index]
 		{
 			get { return _groups[index]; }
@@ -33,6 +37,16 @@ namespace JaJpSolver.Task
 		{
 			if (group.HasValue)
 				_groups.Add(group.Value);
+		}
+
+		public IEnumerator<int> GetEnumerator()
+		{
+			return _groups.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return ((IEnumerable)_groups).GetEnumerator();
 		}
 	}
 }

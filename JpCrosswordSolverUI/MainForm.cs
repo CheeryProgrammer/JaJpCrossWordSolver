@@ -1,5 +1,6 @@
 ﻿using JaJpSolver;
 using JaJpSolver.Common;
+using JaJpSolver.Task;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,15 +16,12 @@ namespace JpCrosswordSolverUI
 {
 	public partial class MainForm : Form
 	{
-		private Board _board;
+		private CrossWordSolver _solver;
 		private Graphics _boardGraphics;
 		private CellType[,] _cells;
 
 		private Pen _gridPen = Pens.Black;
 
-
-		private int _width = 100;
-		private int _height = 50;
 		private int _cellSize = 20;
 
 		public MainForm()
@@ -33,26 +31,33 @@ namespace JpCrosswordSolverUI
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			_board = new Board(_width, _height);
-			var image = new Bitmap(_width * (_cellSize + 1) + 1, _height * (_cellSize + 1) + 1);
+			//InitSolver();
+		}
+
+		private void InitBoard()
+		{
+			var board = _solver.Board;
+			var width = board.Points.GetLength(0);
+			var height = board.Points.GetLength(1);
+			var image = new Bitmap(width * (_cellSize + 1) + 1, height * (_cellSize + 1) + 1);
 			_boardGraphics = Graphics.FromImage(image);
 			_boardGraphics.SmoothingMode = SmoothingMode.AntiAlias;
 			_boardGraphics.Clear(Color.LightYellow);
-			DrawGridLines(_boardGraphics, _width, _height, _cellSize);
+			DrawGridLines(_boardGraphics, width, height, _cellSize);
 
 			pbCrossWord.Width = image.Width;
 			pbCrossWord.Height = image.Height;
 			pbCrossWord.Image = image;
 
-			_cells = new CellType[_width, _height];
-			for (int x = 0; x < _width; x++)
+			_cells = new CellType[width, height];
+			for (int x = 0; x < width; x++)
 			{
-				for (int y = 0; y < _height; y++)
+				for (int y = 0; y < height; y++)
 				{
 					_cells[x, y] = CellType.None;
 				}
 			}
-			DrawBoard(_board);
+			DrawBoard(board);
 		}
 
 		private void DrawGridLines(Graphics boardGraphics, int boardWidth, int boardHeight, int cellSize)
@@ -116,6 +121,35 @@ namespace JpCrosswordSolverUI
 		{
 			_boardGraphics?.Dispose();
 			base.OnClosing(e);
+		}
+
+		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (OpenFileDialog openDialog = new OpenFileDialog())
+			{
+				openDialog.CheckPathExists = true;
+				openDialog.Filter = "Text file|*.txt";
+				openDialog.Multiselect = false;
+				if(openDialog.ShowDialog() == DialogResult.OK)
+				{
+					var file = openDialog.FileName;
+					var task = ParseTask(file);
+					_solver = new CrossWordSolver(task);
+					InitBoard();
+				}
+			}
+		}
+
+		private CrossWordTask ParseTask(string file)
+		{
+			var taskLoader = new CrossWordTaskLoader();
+			taskLoader.TryLoadFromFile(file, out CrossWordTask task);
+			return task;
+		}
+
+		private void btnSolveStep_Click(object sender, EventArgs e)
+		{
+			_solver.SolveStep();
 		}
 	}
 }

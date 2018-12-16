@@ -44,6 +44,9 @@
     <Compile Include="Board.cs" />
     <Compile Include="Common\Point.cs" />
     <Compile Include="Common\CellType.cs" />
+    <Compile Include="CrossWordLine.cs" />
+    <Compile Include="CrossWordSolver.cs" />
+    <Compile Include="Group.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Task\CrossWordLineTask.cs" />
     <Compile Include="Task\CrossWordTask.cs" />
