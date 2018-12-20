@@ -8,11 +8,11 @@ namespace JaJpSolver
 	internal class CrossWordLine
 	{
 		private readonly Point[] _allPoints;
-		public CrossWordLine(IEnumerable<Group> groups, IEnumerable<Point> rowPoints)
+		public CrossWordLine(IEnumerable<Group> groups, IEnumerable<Point> allPoints)
 		{
 			Groups = groups.ToArray();
 
-			_allPoints = rowPoints.ToArray();
+			_allPoints = allPoints.ToArray();
 			
 			for (int i = 0; i < _allPoints.Length; i++)
 			{

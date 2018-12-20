@@ -1,7 +1,4 @@
-﻿using JaJpSolver.Common;
-using System.Collections.Generic;
-
-namespace JaJpSolver
+﻿namespace JaJpSolver
 {
 	public class Group
 	{

@@ -35,8 +35,8 @@ namespace JaJpSolver
 			var cols = task.ColumnsTasks;
 			for (int colIndex = 0; colIndex < cols.Length; colIndex++)
 			{
-				var rowPoints = GetColumnFromBoard(Board.Points, colIndex);
-				yield return new CrossWordLine(cols[colIndex].Select(gLen => new Group(gLen, rowPoints)));
+				var linePoints = GetColumnFromBoard(Board.Points, colIndex);
+				yield return new CrossWordLine(cols[colIndex].Select(gLen => new Group(gLen)), linePoints);
 			}
 		}
 
@@ -45,8 +45,8 @@ namespace JaJpSolver
 			var rows = task.RowsTasks;
 			for(int rowIndex = 0; rowIndex < rows.Length; rowIndex++)
 			{
-				var rowPoints = GetRowFromBoard(Board.Points, rowIndex);
-				yield return new CrossWordLine(rows[rowIndex].Select(gLen=> new Group(gLen)), rowPoints);
+				var linePoints = GetRowFromBoard(Board.Points, rowIndex);
+				yield return new CrossWordLine(rows[rowIndex].Select(gLen=> new Group(gLen)), linePoints);
 			}
 		}
 
