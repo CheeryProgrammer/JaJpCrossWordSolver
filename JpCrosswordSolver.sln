@@ -11,22 +11,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaJpSolverTests", "JaJpSolv
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6442CC3F-66C1-4E0F-8247-B8CD3A98CCB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6442CC3F-66C1-4E0F-8247-B8CD3A98CCB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6442CC3F-66C1-4E0F-8247-B8CD3A98CCB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6442CC3F-66C1-4E0F-8247-B8CD3A98CCB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Debug|x64.ActiveCfg = Debug|x64
+		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Debug|x64.Build.0 = Debug|x64
+		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Release|x64.ActiveCfg = Release|x64
+		{93701D63-2FAC-485A-B17D-92F98FE0D68A}.Release|x64.Build.0 = Release|x64
+		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Debug|x64.ActiveCfg = Debug|x64
+		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Debug|x64.Build.0 = Debug|x64
+		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Release|x64.ActiveCfg = Release|x64
+		{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}.Release|x64.Build.0 = Release|x64
+		{6442CC3F-66C1-4E0F-8247-B8CD3A98CCB6}.Debug|x64.ActiveCfg = Debug|x64
+		{6442CC3F-66C1-4E0F-8247-B8CD3A98CCB6}.Debug|x64.Build.0 = Debug|x64
+		{6442CC3F-66C1-4E0F-8247-B8CD3A98CCB6}.Release|x64.ActiveCfg = Release|x64
+		{6442CC3F-66C1-4E0F-8247-B8CD3A98CCB6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

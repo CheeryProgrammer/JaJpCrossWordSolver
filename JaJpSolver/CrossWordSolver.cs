@@ -70,7 +70,7 @@ namespace JaJpSolver
 		{
 			foreach(var line in _colsLines)
 			{
-				line.TrySolve();
+				line.SolveStep();
 			}
 		}
 	}

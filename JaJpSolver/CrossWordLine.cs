@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace JaJpSolver
 {
-	internal class CrossWordLine
+	public class CrossWordLine
 	{
 		private readonly Point[] _allPoints;
 		public CrossWordLine(IEnumerable<Group> groups, IEnumerable<Point> allPoints)
@@ -13,49 +13,66 @@ namespace JaJpSolver
 			Groups = groups.ToArray();
 
 			_allPoints = allPoints.ToArray();
-			
+
 			for (int i = 0; i < _allPoints.Length; i++)
 			{
-				_allPoints[i].SetPossibleGroups(groups);
+				_allPoints[i].SetPossibleGroups(Groups);
 			}
-
 		}
 
 		public Group[] Groups { get; }
 
-		internal void TrySolve()
+		public void SolveStep()
 		{
-			ShiftToBegin();
-			ShiftToEnd();
+			ShiftToBegin(_allPoints, Groups);
+			ShiftToEnd(_allPoints, Groups);
 		}
 
-		private void ShiftToBegin()
+		private void ShiftToBegin(IEnumerable<Point> points, IEnumerable<Group> groups)
 		{
+			ShiftToOneSide(points, groups);
+		}
+
+		private void ShiftToEnd(IEnumerable<Point> points, IEnumerable<Group> groups)
+		{
+			ShiftToOneSide(points.Reverse(), groups.Reverse());
+		}
+
+		private void ShiftToOneSide(IEnumerable<Point> points, IEnumerable<Group> groups)
+		{
+
+			var pointsArr = points.ToArray();
+			var groupsArr = groups.ToArray();
 			var currentGroupIndex = 0;
 			var matchesCount = 0;
-			for (int i = 0; i < _allPoints.Length; i++)
+			for (int i = 0; i < pointsArr.Length; i++)
 			{
-				var currentPoint = _allPoints[i];
-				var currentGroup = Groups[currentGroupIndex];
+				var currentPoint = pointsArr[i];
+				var currentGroup = groupsArr[currentGroupIndex];
 				if (currentPoint.BelongsTo(currentGroup))
 				{
 					matchesCount++;
-					if(matchesCount >= currentGroup.Length)
+					if (matchesCount >= currentGroup.Length)
 					{
 						// at least one white space between groups
 						i++;
 
 						matchesCount = 0;
-						currentGroupIndex++;
+						if (++currentGroupIndex >= groupsArr.Length)
+							break;
+
+						ExcludeGroups(pointsArr.Take(i + 1), groupsArr.Skip(currentGroupIndex).ToArray());
 					}
 				}
-
 			}
 		}
 
-		private void ShiftToEnd()
+		private void ExcludeGroups(IEnumerable<Point> points, Group[] groupsToExclude)
 		{
-			throw new NotImplementedException();
+			foreach (var point in points)
+			{
+				point.ExcludeGroups(groupsToExclude);
+			}
 		}
 	}
 }

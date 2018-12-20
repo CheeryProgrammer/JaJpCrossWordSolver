@@ -22,9 +22,6 @@ namespace JaJpSolver.Task
 {
 	public class CrossWordTaskLoader
 	{
-		private int _width;
-		private int _height;
-
 		public bool TryLoadFromFile(string path, out CrossWordTask task)
 		{
 			task = null;

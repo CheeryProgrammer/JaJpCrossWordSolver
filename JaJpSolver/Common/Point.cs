@@ -27,5 +27,21 @@ namespace JaJpSolver.Common
 		{
 			return PossibleGroups.Contains(group);
 		}
+
+		public void ExcludeGroups(Group[] groupsToExclude)
+		{
+			if (PossibleGroups.Any())
+			{
+				for (int i = 0; i < groupsToExclude.Length; i++)
+				{
+					var g = groupsToExclude[i];
+					if (PossibleGroups.Contains(g))
+						PossibleGroups.Remove(g);
+				}
+
+				if (!PossibleGroups.Any())
+					PointType = CellType.Empty;
+			}
+		}
 	}
 }
