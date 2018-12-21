@@ -55,7 +55,7 @@ namespace JaJpSolverTests
 
 	public class DataSource
 	{
-		public static IEnumerable<Point> PointsData_10 = Enumerable.Range(0, 10).Select(n => new Point(0, n));
+		public static Point[] PointsData_10 = Enumerable.Range(0, 10).Select(n => new Point(0, n)).ToArray();
 
 		public static IEnumerable TestCases
 		{

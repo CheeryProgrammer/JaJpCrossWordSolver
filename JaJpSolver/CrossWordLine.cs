@@ -40,7 +40,6 @@ namespace JaJpSolver
 
 		private void ShiftToOneSide(IEnumerable<Point> points, IEnumerable<Group> groups)
 		{
-
 			var pointsArr = points.ToArray();
 			var groupsArr = groups.ToArray();
 			var currentGroupIndex = 0;
