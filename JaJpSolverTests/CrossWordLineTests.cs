@@ -16,8 +16,8 @@ namespace JaJpSolverTests
 		[Test]
 		public void CreateCrossWordLine_Test()
 		{
-			var groups = GetGroupsData().ToList();
-			var points = DataSource.PointsData_10.ToList();
+			var groups = DataSource.GroupsData;
+			var points = DataSource.PointsData_10;
 			var cwLine = new CrossWordLine(groups, points);
 			foreach(var point in points)
 			{
@@ -46,16 +46,12 @@ namespace JaJpSolverTests
 			return lineData.Split(',')
 				.Select(n => new Group(int.Parse(n)));
 		}
-
-		private IEnumerable<Group> GetGroupsData()
-		{
-			return Enumerable.Range(0, 5).Select(n => new Group(n));
-		}
 	}
 
 	public class DataSource
 	{
 		public static Point[] PointsData_10 = Enumerable.Range(0, 10).Select(n => new Point(0, n)).ToArray();
+		public static Group[] GroupsData = Enumerable.Range(0, 5).Select(n => new Group(n)).ToArray();
 
 		public static IEnumerable TestCases
 		{
