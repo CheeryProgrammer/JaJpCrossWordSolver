@@ -36,7 +36,7 @@ namespace JaJpSolver
 			for (int colIndex = 0; colIndex < cols.Length; colIndex++)
 			{
 				var linePoints = GetColumnFromBoard(Board.Points, colIndex);
-				yield return new CrossWordLine(cols[colIndex].Select(gLen => new Group(gLen)), linePoints);
+				yield return new CrossWordLine(cols[colIndex].Select(gLen => new Group(gLen)), linePoints, false);
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace JaJpSolver
 			for(int rowIndex = 0; rowIndex < rows.Length; rowIndex++)
 			{
 				var linePoints = GetRowFromBoard(Board.Points, rowIndex);
-				yield return new CrossWordLine(rows[rowIndex].Select(gLen=> new Group(gLen)), linePoints);
+				yield return new CrossWordLine(rows[rowIndex].Select(gLen=> new Group(gLen)), linePoints, true);
 			}
 		}
 
@@ -68,7 +68,12 @@ namespace JaJpSolver
 
 		public void SolveStep()
 		{
-			foreach(var line in _colsLines)
+			foreach (var line in _colsLines)
+			{
+				line.SolveStep();
+			}
+
+			foreach (var line in _rowsLines)
 			{
 				line.SolveStep();
 			}

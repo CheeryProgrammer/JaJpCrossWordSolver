@@ -18,10 +18,10 @@ namespace JaJpSolverTests
 		{
 			var groups = DataSource.GroupsData;
 			var points = DataSource.PointsData_10;
-			var cwLine = new CrossWordLine(groups, points);
+			var cwLine = new CrossWordLine(groups, points, true);
 			foreach(var point in points)
 			{
-				var possible = point.PossibleGroups;
+				var possible = point.PossibleHorizontalGroups;
 				for (int i = 0; i < possible.Count; i++)
 				{
 					var expected = groups.ElementAt(i);
@@ -36,7 +36,7 @@ namespace JaJpSolverTests
 		public string SolveStep_Test(string lineData, IEnumerable<Point> points)
 		{
 			var groups = ParseGroups(lineData);
-			var cwLine = new CrossWordLine(groups, points);
+			var cwLine = new CrossWordLine(groups, points, true);
 			cwLine.SolveStep();
 			return points.RenderToString();
 		}

@@ -9,7 +9,8 @@ namespace JaJpSolver.Common
 		public int X { get; set; }
 		public int Y { get; set; }
 		public CellType PointType { get; private set; }
-		public List<Group> PossibleGroups { get; private set; }
+		public List<Group> PossibleVerticalGroups { get; private set; }
+		public List<Group> PossibleHorizontalGroups { get; private set; }
 
 		public Point(int x, int y)
 		{
@@ -18,30 +19,47 @@ namespace JaJpSolver.Common
 			PointType = CellType.None;
 		}
 
-		internal void SetPossibleGroups(IEnumerable<Group> groups)
+		internal void SetPossibleGroups(IEnumerable<Group> groups, bool areHorizontal)
 		{
-			PossibleGroups = groups.ToList();
+			if (areHorizontal)
+				PossibleHorizontalGroups = groups.ToList();
+			else
+				PossibleVerticalGroups = groups.ToList();
 		}
 
-		internal bool BelongsTo(Group group)
+		internal bool BelongsTo(Group group, bool isHorizontal)
 		{
-			return PossibleGroups.Contains(group);
+			var possibleGroups = isHorizontal ? PossibleHorizontalGroups : PossibleVerticalGroups;
+
+			return possibleGroups.Contains(group);
 		}
 
-		public void ExcludeGroups(Group[] groupsToExclude)
+		public void ExcludeGroups(Group[] groupsToExclude, bool areHorizontal)
 		{
-			if (PossibleGroups.Any())
+			var possibleGroups = areHorizontal ? PossibleHorizontalGroups : PossibleVerticalGroups;
+
+			if (possibleGroups.Any())
 			{
 				for (int i = 0; i < groupsToExclude.Length; i++)
 				{
 					var g = groupsToExclude[i];
-					if (PossibleGroups.Contains(g))
-						PossibleGroups.Remove(g);
+					if (possibleGroups.Contains(g))
+						possibleGroups.Remove(g);
 				}
 
-				if (!PossibleGroups.Any())
+				if (!possibleGroups.Any())
 					PointType = CellType.Empty;
 			}
+		}
+
+		public void SetFilled()
+		{
+			PointType = CellType.Filled;
+		}
+
+		public void SetEmpty()
+		{
+			PointType = CellType.Empty;
 		}
 	}
 }
