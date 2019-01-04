@@ -2,6 +2,8 @@
 using JaJpSolver.Task;
 using System;
 using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JpCrosswordSolverUI
@@ -51,10 +53,14 @@ namespace JpCrosswordSolverUI
 			return task;
 		}
 
-		private void btnSolveStep_Click(object sender, EventArgs e)
+		private async void btnSolveStep_Click(object sender, EventArgs e)
 		{
-			_solver.SolveStep();
-			_fieldRenderer.DrawBoard(_solver.Board);
+			while (!_solver.Solved)
+			{
+				_solver.SolveStep();
+				_fieldRenderer.DrawBoard(_solver.Board);
+				await Task.Delay(1000);
+			}
 		}
 	}
 }

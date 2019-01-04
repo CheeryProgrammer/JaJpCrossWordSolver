@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JaJpSolver;
 using JaJpSolver.Common;
 
 namespace JaJpSolverTests
@@ -17,6 +18,12 @@ namespace JaJpSolverTests
 					default: return "0";
 				}
 			}));
+		}
+
+		public static IEnumerable<Group> ParseGroups(string lineData)
+		{
+			return lineData.Split(',')
+				.Select(n => new Group(int.Parse(n)));
 		}
 	}
 }

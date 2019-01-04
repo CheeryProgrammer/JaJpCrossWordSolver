@@ -16,13 +16,14 @@ namespace JaJpSolver
 		private IEnumerable<CrossWordLine> _rowsLines;
 
 		public Board Board { get => _board; }
+		public bool Solved => _colsLines.All(line => line.Solved);
 
 		public CrossWordSolver(CrossWordTask task)
 		{
 			_task = task;
 			InitializeBoard(task);
-			_colsLines = ParseColsLines(task);
-			_rowsLines = ParseRowsLines(task);
+			_colsLines = ParseColsLines(task).ToList();
+			_rowsLines = ParseRowsLines(task).ToList();
 		}
 
 		private void InitializeBoard(CrossWordTask task)

@@ -12,6 +12,11 @@ namespace JaJpSolver.Common
 		public List<Group> PossibleVerticalGroups { get; private set; }
 		public List<Group> PossibleHorizontalGroups { get; private set; }
 
+		public Point()
+		{
+			
+		}
+
 		public Point(int x, int y)
 		{
 			X = x;
@@ -48,7 +53,9 @@ namespace JaJpSolver.Common
 				}
 
 				if (!possibleGroups.Any())
-					PointType = CellType.Empty;
+				{
+					SetEmpty();
+				}
 			}
 		}
 
@@ -60,6 +67,21 @@ namespace JaJpSolver.Common
 		public void SetEmpty()
 		{
 			PointType = CellType.Empty;
+			PossibleHorizontalGroups?.Clear();
+			PossibleVerticalGroups?.Clear();
+		}
+
+		public bool IsFilled()
+		{
+			return PointType == CellType.Filled;
+		}
+
+		public (bool Exists, Group Group) HasSinglePossibleGroup(bool isHorizontal)
+		{
+			var points = isHorizontal ? PossibleHorizontalGroups : PossibleVerticalGroups;
+			if (points.Count != 1)
+				return (false, null);
+			return (true, points[0]);
 		}
 	}
 }
