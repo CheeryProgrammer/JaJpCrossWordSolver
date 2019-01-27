@@ -55,6 +55,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +69,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\GridCell.cs" />
+    <Compile Include="Controls\PuzzleGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FieldRenderer.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -86,7 +93,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -105,6 +114,24 @@
       <Project>{78DC502A-0C88-4DFA-A6CB-C78649E7A0AE}</Project>
       <Name>JaJpSolver</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Empty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Filled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\None.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Empty1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Filled1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\None1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
