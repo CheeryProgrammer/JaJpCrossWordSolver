@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using JaJpSolver.Common;
 using Point = System.Drawing.Point;
@@ -12,8 +13,8 @@ namespace JpCrosswordSolverUI.Controls
 		private readonly int _height;
 		private int _cellSize;
 		private readonly int _groupSize = 5;
-		private readonly int _lineThickness = 1;
-		private readonly int _groupLineThickness = 2;
+		private readonly int _lineThickness = 10;
+		private readonly int _groupLineThickness = 22;
 
 		private readonly Pen _gridLinePen;
 		private readonly Pen _groupGridLinePen;
@@ -64,6 +65,7 @@ namespace JpCrosswordSolverUI.Controls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
+			e.Graphics.SmoothingMode = SmoothingMode.None;
 			DrawGridLines(e.Graphics);
 			DrawValues(e.Graphics);
 		}
@@ -71,15 +73,13 @@ namespace JpCrosswordSolverUI.Controls
 		private Rectangle GetCellRectangle(int x, int y)
 		{
 			var rowGroup = y / _groupSize + 1;
-			rowGroup += y % _groupSize > 0 ? 1 : 0;
 			var colGroup = x / _groupSize + 1;
-			colGroup += x % _groupSize > 0 ? 1 : 0;
 
-			var cellX = (_cellSize + _lineThickness) * x - _lineThickness+1;
+			var cellX = (_cellSize + _lineThickness) * x - _lineThickness + 1;
 			if(_showVerticalMainLines)
 				cellX += (_groupLineThickness - _lineThickness) * colGroup;
 
-			var cellY = (_cellSize + _lineThickness) * y - _lineThickness+1;
+			var cellY = (_cellSize + _lineThickness) * y - _lineThickness + 1;
 			if(_showHorizontalMainLines)
 				cellY += (_groupLineThickness - _lineThickness) * rowGroup;
 			return new Rectangle(cellX,cellY, _cellSize, _cellSize);
@@ -109,9 +109,9 @@ namespace JpCrosswordSolverUI.Controls
 			for (int i = 0; i <= _height; i++)
 			{
 				var pen = (i % _groupSize > 0 && i != _height || !_showHorizontalMainLines) ? _gridLinePen : _groupGridLinePen;
-				row += pen.Width / 2;
-				g.DrawLine(pen, 0, row, Width, row);
-				row += pen.Width / 2 + _cellSize;
+				//row += pen.Width / 2;
+				g.DrawLine(pen, 0, row + pen.Width / 2, Width, row + pen.Width / 2);
+				row += pen.Width + _cellSize;
 			}
 		}
 
@@ -258,18 +258,19 @@ namespace JpCrosswordSolverUI.Controls
 		}
 
 		/// <summary>
-		/// TODO: fix this method.
+		/// TODO: Needs to be fixed. Gives approximate results
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <returns></returns>
 		private (int X, int Y) FindCell(int x, int y)
 		{
-			var averageCellWidth = (Width) / _width;
-			var cellX = ((x -_cellSize) / averageCellWidth) + 1;
-			var averageCellHeight = (Height) / _height;
-			var cellY = ((y - _cellSize) / averageCellHeight) + 1;
-			return (cellX, cellY);
+			var gLen = _groupLineThickness + _cellSize * _groupSize + _lineThickness * (_groupSize - 1);
+			var groupX = x / gLen + 1;
+			var cellX = (x + 1 - (_groupLineThickness - _lineThickness) * (groupX - 1) - 1.5 * _lineThickness) / (_cellSize + _lineThickness);
+			var groupY = y / gLen + 1;
+			var cellY = (y + 1 - (_groupLineThickness - _lineThickness) * (groupY - 1) - 1.5 * _lineThickness) / (_cellSize + _lineThickness);
+			return ((int)cellX + 1, (int)cellY + 1);
 		}
 
 		public void ScaleByCoeff(double coeff)
@@ -282,3 +283,22 @@ namespace JpCrosswordSolverUI.Controls
 		}
 	}
 }
+
+
+/*
+ * a - thin
+ * b - thick
+ * c - cell
+ *
+ * 1	-	b																		g - 1
+ * 2	-	b + cell + a															g - 1
+ * 3	-	b + cell + a + cell + a													g - 1
+ * 4	-	b + cell + a + cell + a + cell + a										g - 1
+ * 5	-	b + cell + a + cell + a + cell + a + cell + a							g - 1
+ * 6	-	b + cell + a + cell + a + cell + a + cell + a + cell + b				g - 2
+ *
+ * gLen = b + (cell + a) * gCount;
+ * g = n / gLen + 1
+ * n = b * g + (cell + a) * X
+ * n = b * g + cell * X + a * (X - 1)
+ */
