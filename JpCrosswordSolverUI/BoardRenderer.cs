@@ -5,11 +5,11 @@ using JpCrosswordSolverUI.Controls;
 
 namespace JpCrosswordSolverUI
 {
-	class FieldRenderer
+	class BoardRenderer
 	{
 		private PuzzleGrid _pictureGrid;
 
-		public FieldRenderer(PuzzleGrid pictureGrid)
+		public BoardRenderer(PuzzleGrid pictureGrid)
 		{
 			_pictureGrid = pictureGrid;
 		}

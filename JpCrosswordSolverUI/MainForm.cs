@@ -14,7 +14,7 @@ namespace JpCrosswordSolverUI
 	public partial class MainForm : Form
 	{
 		private CrossWordSolver _solver;
-		private FieldRenderer _fieldRenderer;
+		private BoardRenderer _fieldRenderer;
 		private PuzzleGrid _colsTaskGrid;
 		private PuzzleGrid _rowsTaskGrid;
 		private PuzzleGrid _pictureGrid;
@@ -47,7 +47,7 @@ namespace JpCrosswordSolverUI
 					_solver = new CrossWordSolver(task);
 
 					InitPictureGrid(task);
-					_fieldRenderer = new FieldRenderer(_pictureGrid);
+					_fieldRenderer = new BoardRenderer(_pictureGrid);
 					_fieldRenderer.UpdateBoard(_solver.Board);
 
 					splitContainerRight.SplitterDistance = ColsPanel.Height;
