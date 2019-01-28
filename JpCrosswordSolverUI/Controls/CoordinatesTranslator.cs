@@ -35,20 +35,14 @@ namespace JpCrosswordSolverUI.Controls
 			return new Rectangle(cellX, cellY, _puzzleGrid.CellSize, _puzzleGrid.CellSize);
 		}
 
-		/// <summary>
-		/// TODO: Needs to be fixed. Gives approximate results
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <returns></returns>
 		public (int X, int Y) FindCell(int x, int y)
 		{
 			var gLen = _puzzleGrid.GroupLineThickness + _puzzleGrid.CellSize * _puzzleGrid.GroupSize + _puzzleGrid.LineThickness * (_puzzleGrid.GroupSize - 1);
 			var groupX = x / gLen + 1;
-			var cellX = (x + 1 - (_puzzleGrid.GroupLineThickness - _puzzleGrid.LineThickness) * (groupX - 1) - 1.5 * _puzzleGrid.LineThickness) / (_puzzleGrid.CellSize + _puzzleGrid.LineThickness);
+			var cellX = (x + 1 - (_puzzleGrid.GroupLineThickness - _puzzleGrid.LineThickness) * groupX - _puzzleGrid.LineThickness) / (_puzzleGrid.CellSize + _puzzleGrid.LineThickness);
 			var groupY = y / gLen + 1;
-			var cellY = (y + 1 - (_puzzleGrid.GroupLineThickness - _puzzleGrid.LineThickness) * (groupY - 1) - 1.5 * _puzzleGrid.LineThickness) / (_puzzleGrid.CellSize + _puzzleGrid.LineThickness);
-			return ((int)cellX + 1, (int)cellY + 1);
+			var cellY = (y + 1 - (_puzzleGrid.GroupLineThickness - _puzzleGrid.LineThickness) * groupY - _puzzleGrid.LineThickness) / (_puzzleGrid.CellSize + _puzzleGrid.LineThickness);
+			return (cellX + 1, cellY + 1);
 		}
 	}
 }
