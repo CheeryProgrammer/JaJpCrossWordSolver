@@ -32,7 +32,7 @@ namespace JpCrosswordSolverUI.Controls
 			var cellY = (_puzzleGrid.CellSize + _puzzleGrid.LineThickness) * y - _puzzleGrid.LineThickness + 1;
 			if (_showHorizontalMainLines)
 				cellY += (_puzzleGrid.GroupLineThickness - _puzzleGrid.LineThickness) * rowGroup;
-			return new Rectangle(cellX, cellY, _puzzleGrid.CellSize, _puzzleGrid.CellSize);
+			return new Rectangle(cellX+1, cellY+1, _puzzleGrid.CellSize, _puzzleGrid.CellSize);
 		}
 
 		public (int X, int Y) FindCell(int x, int y)
