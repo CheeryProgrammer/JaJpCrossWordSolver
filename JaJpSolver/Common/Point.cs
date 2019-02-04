@@ -83,5 +83,10 @@ namespace JaJpSolver.Common
 				return (false, null);
 			return (true, points[0]);
 		}
+
+		public void SetNone()
+		{
+			PointType = CellType.None;
+		}
 	}
 }

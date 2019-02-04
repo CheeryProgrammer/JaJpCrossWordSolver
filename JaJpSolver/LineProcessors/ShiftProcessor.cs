@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JaJpSolver.Common;
 
 namespace JaJpSolver.LineProcessors
 {
+	/// <summary>
+	/// Удаляет группы из тех точек, которые не могут ей (группе) принадлежать.
+	/// </summary>
 	class ShiftProcessor : ILineProcessor
 	{
 		private readonly bool _isHorizontal;

@@ -79,5 +79,23 @@ namespace JaJpSolver
 				line.SolveStep();
 			}
 		}
+
+		public void SetManually(int x, int y, CellType newCellType)
+		{
+			switch (newCellType)
+			{
+				case CellType.None:
+					Board.Points[x, y].SetNone();
+					break;
+				case CellType.Empty:
+					Board.Points[x, y].SetEmpty();
+					break;
+				case CellType.Filled:
+					Board.Points[x, y].SetFilled();
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(newCellType), newCellType, null);
+			}
+		}
 	}
 }

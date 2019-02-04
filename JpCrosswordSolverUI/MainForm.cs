@@ -18,7 +18,6 @@ namespace JpCrosswordSolverUI
 		private PuzzleGrid _colsTaskGrid;
 		private PuzzleGrid _rowsTaskGrid;
 		private PuzzleGrid _pictureGrid;
-		private CellType _manualMode;
 		private Panel PicturePanel => splitContainerRight.Panel2;
 		private Panel ColsPanel => splitContainerRight.Panel1;
 		private Panel RowsPanel => splitContainerLeft.Panel2;
@@ -65,6 +64,13 @@ namespace JpCrosswordSolverUI
 			_pictureGrid.Moved += PictureMoved;
 			_pictureGrid.Scaled += PictureScaled;
 			_pictureGrid.HoveredPointChanged += PictureGrid_HoveredPointChanged;
+			_pictureGrid.CellChanged += PictureGrid_CellChanged;
+		}
+
+		private void PictureGrid_CellChanged(int x, int y, CellType newCellType)
+		{
+			_solver.SetManually(x, y, newCellType);
+			_fieldRenderer.UpdateBoard(_solver.Board);
 		}
 
 		private void PictureGrid_HoveredPointChanged(int x, int y)
@@ -163,7 +169,7 @@ namespace JpCrosswordSolverUI
 			if (sender is CheckBox cb) cb.Image = Resources.NoneActive;
 			cbFilled.Image = Resources.Filled;
 			cbEmpty.Image = Resources.Empty;
-			_manualMode = CellType.None;
+			_pictureGrid.PaintMode = CellType.None;
 		}
 
 		private void cbFilled_MouseDown(object sender, MouseEventArgs e)
@@ -171,7 +177,7 @@ namespace JpCrosswordSolverUI
 			if (sender is CheckBox cb) cb.Image = Resources.FilledActive;
 			cbNone.Image = Resources.None;
 			cbEmpty.Image = Resources.Empty;
-			_manualMode = CellType.Filled;
+			_pictureGrid.PaintMode = CellType.Filled;
 		}
 
 		private void cbEmpty_MouseDown(object sender, MouseEventArgs e)
@@ -179,7 +185,7 @@ namespace JpCrosswordSolverUI
 			if (sender is CheckBox cb) cb.Image = Resources.EmptyActive;
 			cbFilled.Image = Resources.Filled;
 			cbNone.Image = Resources.None;
-			_manualMode = CellType.Empty;
+			_pictureGrid.PaintMode = CellType.Empty;
 		}
 	}
 }

@@ -25,6 +25,7 @@ namespace JpCrosswordSolverUI.Controls
 
 		private readonly ControlMover _controlMover;
 		private CoordinatesTranslator _coordinatesTranslator;
+		private readonly Painter _painter;
 
 		private bool _showHorizontalMainLines;
 		private bool _showVerticalMainLines;
@@ -35,9 +36,25 @@ namespace JpCrosswordSolverUI.Controls
 
 		public bool MovingEnabled { get; set; } = false;
 
+		/// <summary>
+		/// Raised when control is moved
+		/// </summary>
 		public event Action Moved;
+
+		/// <summary>
+		/// Raised when picture grid is scaled
+		/// </summary>
 		public event Action<float> Scaled;
+
+		/// <summary>
+		/// Used for coordinates tracking
+		/// </summary>
 		public event Action<int,int> HoveredPointChanged;
+
+		/// <summary>
+		/// Raised when CellType is changed
+		/// </summary>
+		public event Action<int,int,CellType> CellChanged;
 
 		public PuzzleGrid(int width, int height, int cellSize = 7, bool showHorizontalMainLines = true, bool showVerticalMainLines = true)
 		{
@@ -52,6 +69,7 @@ namespace JpCrosswordSolverUI.Controls
 			_coordinatesTranslator = new CoordinatesTranslator(this, showHorizontalMainLines, showVerticalMainLines);
 
 			GridCells = new GridCell[width, height];
+			_painter = new Painter(GridCells);
 
 			AdjustSize();
 
@@ -176,12 +194,25 @@ namespace JpCrosswordSolverUI.Controls
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (_controlMover.Active && MovingEnabled)
+			if (!MovingEnabled)
+				return;
+
+			if (_controlMover.Active)
 			{
 				_controlMover.Move(e.Location);
 				Moved?.Invoke();
 			}
-
+			else
+			{
+				if ((e.Button & MouseButtons.Right) != 0)
+				{
+					var coords = _coordinatesTranslator.FindCell(e.X, e.Y);
+					coords.X--;
+					coords.Y--;
+					if(_painter.TryChangeCell(coords.X, coords.Y, PaintMode))
+						CellChanged?.Invoke(coords.X, coords.Y, PaintMode);
+				}
+			}
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -218,6 +249,7 @@ namespace JpCrosswordSolverUI.Controls
 		}
 
 		private Point _hoveredPoint;
+		public CellType PaintMode { get; set; }
 
 		public Point HoveredPoint
 		{

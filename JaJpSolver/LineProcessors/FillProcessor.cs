@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using JaJpSolver.Common;
 
 namespace JaJpSolver.LineProcessors
 {
+
 	class FillProcessor : ILineProcessor
 	{
 		private readonly bool _isHorizontal;

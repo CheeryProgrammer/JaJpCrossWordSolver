@@ -3,6 +3,7 @@ using JaJpSolver.Common;
 
 namespace JaJpSolver.LineProcessors
 {
+
 	public class AffiliationProcessor: ILineProcessor
 	{
 		private readonly bool _isHorizontal;

@@ -72,6 +72,7 @@
     <Compile Include="Controls\ControlMover.cs" />
     <Compile Include="Controls\CoordinatesTranslator.cs" />
     <Compile Include="Controls\GridCell.cs" />
+    <Compile Include="Controls\Painter.cs" />
     <Compile Include="Controls\PuzzleGrid.cs">
       <SubType>Component</SubType>
     </Compile>
