@@ -26,13 +26,13 @@ namespace JaJpSolver.LineProcessors
 			}
 		}
 
-		private void ExcludeFromImpossiblePoints(Point[] points, Group @group, int index)
+		private void ExcludeFromImpossiblePoints(Point[] points, Group g, int index)
 		{
 			for (int i = 0; i < points.Length; i++)
 			{
-				if (Math.Abs(index - i) >= @group.Length)
+				if (Math.Abs(index - i) >= g.Length)
 				{
-					points[i].ExcludeGroups(new []{@group}, _isHorizontal);
+					points[i].ExcludeGroups(new[] {g}, _isHorizontal);
 				}
 			}
 		}

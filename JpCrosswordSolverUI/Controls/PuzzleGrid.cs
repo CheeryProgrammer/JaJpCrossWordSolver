@@ -180,10 +180,10 @@ namespace JpCrosswordSolverUI.Controls
 				case CellType.Empty:
 					var scale = (int)(-_cellSize / 3);
 					cellRect.Inflate(scale, scale);
-					g.FillEllipse(Brushes.Black, cellRect);
+					g.FillEllipse(_drawingBrush, cellRect);
 					break;
 				case CellType.Filled:
-					g.FillRectangle(Brushes.Black, cellRect);
+					g.FillRectangle(_drawingBrush, cellRect);
 					break;
 				default:
 					throw new InvalidOperationException("Unknown cell type");
@@ -249,6 +249,7 @@ namespace JpCrosswordSolverUI.Controls
 		}
 
 		private Point _hoveredPoint;
+		private Brush _drawingBrush = Brushes.Gray;
 		public CellType PaintMode { get; set; }
 
 		public Point HoveredPoint

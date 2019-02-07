@@ -1,5 +1,6 @@
-﻿using System;
-using JaJpSolver.Common;
+﻿using JaJpSolver.Common;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JaJpSolver.LineProcessors
 {
@@ -23,80 +24,82 @@ namespace JaJpSolver.LineProcessors
 			}
 		}
 
-		private void ExcludeImpossibleLocations(Point[] points, Group g, out int count)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="points"></param>
+		/// <param name="g"></param>
+		/// <param name="count"></param>
+		private void ExcludeImpossibleLocations(Point[] points, Group g, out int locationCount)
 		{
-			count = 0;
-			bool inGroup = false;
-			int freeSpace = 0;
-			for (int i = 0; i < points.Length; i++)
+			locationCount = 0;
+			var locations = FindLocations(points, g).ToList();
+
+			foreach (var location in locations)
 			{
-				var p = points[i];
-				if (p.BelongsTo(g, _isHorizontal))
+				if (location.Count < g.Length)
 				{
-					if (!inGroup)
+					foreach (var point in location)
 					{
-						inGroup = true;
-						freeSpace = 1;
-						count++;
+						point.ExcludeGroups(new []{g}, _isHorizontal);
 					}
-					else
-					{
-						freeSpace++;
-					}
+
+					continue;
 				}
-				else
-				{
-					if (inGroup)
-					{
-						inGroup = false;
-						if (g.Length > freeSpace)
-						{
-							for (int j = i - freeSpace; j < i; j++)
-							{
-								points[j].ExcludeGroups(new[] { g }, _isHorizontal);
-								count--;
-							}
-						}
-					}
-				}
+
+				locationCount++;
 			}
+		}
+
+		private IEnumerable<List<Point>> FindLocations(Point[] points, Group g)
+		{
+			var index = 0;
+			List<Point> location;
+			do
+			{
+				location = GetLocation(points, g, ref index);
+				if (location != null)
+				{
+					yield return location;
+				}
+			} while (location != null);
+		}
+
+		private List<Point> GetLocation(Point[] points, Group g, ref int index)
+		{
+			List<Point> location = null;
+
+			while (index < points.Length && !points[index].BelongsTo(g, _isHorizontal))
+			{
+				index++;
+			}
+
+			while (index < points.Length && points[index].BelongsTo(g, _isHorizontal))
+			{
+				if (location == null)
+				{
+					location = new List<Point>();
+				}
+				location.Add(points[index++]);
+			}
+
+			return location;
 		}
 
 		private void FillFirstPossibleCells(Point[] points, Group g)
 		{
-			int startIndex = -1;
-			int stopIndex = -1;
-			for (int i = 0; i < points.Length; i++)
+			var location = points
+				.SkipWhile(p => !p.BelongsTo(g, _isHorizontal))
+				.TakeWhile(p => p.BelongsTo(g, _isHorizontal)).ToList();
+
+			if (location.Count < (g.Length << 1))
 			{
-				var p = points[i];
-				if (p.BelongsTo(g, _isHorizontal))
+				var skip = location.Count - g.Length;
+				var take = location.Count - (skip << 1);
+				foreach (var point in location.Skip(skip).Take(take))
 				{
-					if (startIndex == -1)
-						startIndex = i;
-
-					stopIndex = i;
+					point.SetFilled();
 				}
-				else
-				{
-					if (startIndex != -1)
-						break;
-				}
-			}
-			if (startIndex == -1 || stopIndex == -1)
-				throw new InvalidOperationException("Points belonged to group are not found");
-
-			var length = stopIndex + 1 - startIndex;
-			for (int i = startIndex + length - g.Length; i <= stopIndex - length + g.Length; i++)
-			{
-				points[i].SetFilled();
-			}
-
-			if (length == g.Length)
-			{
-				if (startIndex > 0)
-					points[startIndex - 1].SetEmpty();
-				if (stopIndex < points.Length - 1)
-					points[stopIndex + 1].SetEmpty();
 			}
 		}
 	}

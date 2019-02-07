@@ -32,6 +32,7 @@ namespace JaJpSolver
 				new ShiftProcessor(_isHorizontal),
 				new FillProcessor(_isHorizontal),
 				new AffiliationProcessor(_isHorizontal),
+				new CompletionProcessor(),
 			};
 		}
 
