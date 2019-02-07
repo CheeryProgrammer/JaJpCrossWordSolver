@@ -38,6 +38,12 @@ namespace JaJpSolver
 
 		public void SolveStep()
 		{
+			if (_allPoints[0].Y == 50)
+			{
+				var g = Groups[4];
+				var possible = _allPoints.Where(p => p.BelongsTo(g, _isHorizontal)).ToList();
+			}
+
 			foreach (var lineProcessor in _lineProcessors)
 			{
 				lineProcessor.Process(_allPoints, Groups);

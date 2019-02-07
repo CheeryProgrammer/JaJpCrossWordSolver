@@ -2,6 +2,7 @@
 using JaJpSolver.Task;
 using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using JaJpSolver.Common;
@@ -75,8 +76,22 @@ namespace JpCrosswordSolverUI
 
 		private void PictureGrid_HoveredPointChanged(int x, int y)
 		{
-			tbCoordinates.Clear();
-			tbCoordinates.AppendText($"Col: {x}; row:{y}");
+			tbStatistics.Clear();
+			var p = _solver.Board.Points[x, y];
+			var statistics = GetPointStatistics(p);
+			tbStatistics.AppendText(statistics);
+		}
+
+		private string GetPointStatistics(JaJpSolver.Common.Point point)
+		{
+			var sb = new StringBuilder();
+			sb.AppendLine($"Col: {point.X}; row:{point.Y}");
+			sb.AppendLine($"State: {point.PointType}");
+			sb.AppendLine($"Possible vertical groups:");
+			sb.AppendLine(string.Join(Environment.NewLine, point.PossibleVerticalGroups.Select(g=>$"\t{g.Length}")));
+			sb.AppendLine($"Possible horizontal groups:");
+			sb.AppendLine(string.Join(Environment.NewLine, point.PossibleHorizontalGroups.Select(g=>$"\t{g.Length}")));
+			return sb.ToString();
 		}
 
 		private void PictureMoved()

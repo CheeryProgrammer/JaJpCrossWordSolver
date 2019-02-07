@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using JaJpSolver.Common;
 
 namespace JaJpSolver.LineProcessors
@@ -22,6 +23,19 @@ namespace JaJpSolver.LineProcessors
 				if (p.IsFilled() && singlePossible.Exists)
 				{
 					ExcludeFromImpossiblePoints(points, singlePossible.Group, i);
+					var left = points.Take(i);
+					var right = points.Skip(i + 1);
+					var currentGroupIndex = groups.ToList().IndexOf(singlePossible.Group);
+					foreach (var point in left)
+					{
+						point.ExcludeGroups(groups.Skip(currentGroupIndex + 1).ToArray(), _isHorizontal);
+					}
+					foreach (var point in right)
+					{
+						point.ExcludeGroups(groups.Take(currentGroupIndex).ToArray(), _isHorizontal);
+					}
+
+					// todo: for the same group remove other groups from list of possible.
 				}
 			}
 		}

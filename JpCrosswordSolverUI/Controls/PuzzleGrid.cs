@@ -124,7 +124,6 @@ namespace JpCrosswordSolverUI.Controls
 			for (int i = 0; i <= _height; i++)
 			{
 				var pen = (i % _groupSize > 0 && i != _height || !_showHorizontalMainLines) ? _gridLinePen : _groupGridLinePen;
-				//row += pen.Width / 2;
 				g.DrawLine(pen, 0, row + pen.Width / 2, Width, row + pen.Width / 2);
 				row += pen.Width + _cellSize;
 			}
@@ -194,6 +193,8 @@ namespace JpCrosswordSolverUI.Controls
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
+			PrintStatistics(e);
+
 			if (!MovingEnabled)
 				return;
 
@@ -206,13 +207,32 @@ namespace JpCrosswordSolverUI.Controls
 			{
 				if ((e.Button & MouseButtons.Right) != 0)
 				{
-					var coords = _coordinatesTranslator.FindCell(e.X, e.Y);
-					coords.X--;
-					coords.Y--;
-					if(_painter.TryChangeCell(coords.X, coords.Y, PaintMode))
-						CellChanged?.Invoke(coords.X, coords.Y, PaintMode);
+					DrawManually(e);
 				}
 			}
+		}
+
+		private void PrintStatistics(MouseEventArgs e)
+		{
+			var cellCoords = _coordinatesTranslator.FindCell(e.X, e.Y);
+			cellCoords.X--;
+			cellCoords.Y--;
+			if (cellCoords.X >= 0 
+			    && cellCoords.X < _width
+			    && cellCoords.Y >= 0
+			    && cellCoords.Y < _height)
+			{
+				HoveredPoint = new Point(cellCoords.X, cellCoords.Y);
+			}
+		}
+
+		private void DrawManually(MouseEventArgs e)
+		{
+			var coords = _coordinatesTranslator.FindCell(e.X, e.Y);
+			coords.X--;
+			coords.Y--;
+			if (_painter.TryChangeCell(coords.X, coords.Y, PaintMode))
+				CellChanged?.Invoke(coords.X, coords.Y, PaintMode);
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -243,8 +263,7 @@ namespace JpCrosswordSolverUI.Controls
 		{
 			if ((e.Button & MouseButtons.Right) != 0)
 			{
-				var cellCoords = _coordinatesTranslator.FindCell(e.X, e.Y);
-				HoveredPoint = new Point(cellCoords.X, cellCoords.Y);
+				DrawManually(e);
 			}
 		}
 
