@@ -66,7 +66,17 @@
 			this.cbEmpty = new System.Windows.Forms.CheckBox();
 			this.cbFilled = new System.Windows.Forms.CheckBox();
 			this.cbNone = new System.Windows.Forms.CheckBox();
-			this.tbStatistics = new System.Windows.Forms.TextBox();
+			this.gbContainer = new System.Windows.Forms.GroupBox();
+			this.tbCoordinates = new System.Windows.Forms.TextBox();
+			this.tbHorizontalGroups = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.tbVerticalGroups = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.tbHorizontalAffiliation = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.tbVerticalAffiliation = new System.Windows.Forms.TextBox();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerCommon)).BeginInit();
 			this.splitContainerCommon.Panel1.SuspendLayout();
@@ -76,6 +86,7 @@
 			this.splitContainerLeft.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerRight)).BeginInit();
 			this.splitContainerRight.SuspendLayout();
+			this.gbContainer.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -426,22 +437,133 @@
 			this.cbNone.UseVisualStyleBackColor = true;
 			this.cbNone.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cbNone_MouseDown);
 			// 
-			// tbStatistics
+			// gbContainer
 			// 
-			this.tbStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.tbStatistics.Location = new System.Drawing.Point(656, 102);
-			this.tbStatistics.Multiline = true;
-			this.tbStatistics.Name = "tbStatistics";
-			this.tbStatistics.ReadOnly = true;
-			this.tbStatistics.Size = new System.Drawing.Size(132, 336);
-			this.tbStatistics.TabIndex = 9;
+			this.gbContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbContainer.Controls.Add(this.label5);
+			this.gbContainer.Controls.Add(this.tbVerticalAffiliation);
+			this.gbContainer.Controls.Add(this.label4);
+			this.gbContainer.Controls.Add(this.label2);
+			this.gbContainer.Controls.Add(this.tbVerticalGroups);
+			this.gbContainer.Controls.Add(this.label3);
+			this.gbContainer.Controls.Add(this.tbHorizontalAffiliation);
+			this.gbContainer.Controls.Add(this.label1);
+			this.gbContainer.Controls.Add(this.tbHorizontalGroups);
+			this.gbContainer.Controls.Add(this.tbCoordinates);
+			this.gbContainer.Location = new System.Drawing.Point(656, 102);
+			this.gbContainer.Name = "gbContainer";
+			this.gbContainer.Size = new System.Drawing.Size(132, 336);
+			this.gbContainer.TabIndex = 8;
+			this.gbContainer.TabStop = false;
+			this.gbContainer.Text = "Info";
+			// 
+			// tbCoordinates
+			// 
+			this.tbCoordinates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.tbCoordinates.Location = new System.Drawing.Point(6, 19);
+			this.tbCoordinates.Name = "tbCoordinates";
+			this.tbCoordinates.ReadOnly = true;
+			this.tbCoordinates.Size = new System.Drawing.Size(120, 20);
+			this.tbCoordinates.TabIndex = 0;
+			// 
+			// tbHorizontalGroups
+			// 
+			this.tbHorizontalGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.tbHorizontalGroups.Location = new System.Drawing.Point(6, 193);
+			this.tbHorizontalGroups.Multiline = true;
+			this.tbHorizontalGroups.Name = "tbHorizontalGroups";
+			this.tbHorizontalGroups.ReadOnly = true;
+			this.tbHorizontalGroups.Size = new System.Drawing.Size(120, 40);
+			this.tbHorizontalGroups.TabIndex = 1;
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(6, 177);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(92, 13);
+			this.label1.TabIndex = 2;
+			this.label1.Text = "Horizontal groups:";
+			// 
+			// tbVerticalGroups
+			// 
+			this.tbVerticalGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.tbVerticalGroups.Location = new System.Drawing.Point(6, 252);
+			this.tbVerticalGroups.Multiline = true;
+			this.tbVerticalGroups.Name = "tbVerticalGroups";
+			this.tbVerticalGroups.ReadOnly = true;
+			this.tbVerticalGroups.Size = new System.Drawing.Size(120, 40);
+			this.tbVerticalGroups.TabIndex = 1;
+			// 
+			// label2
+			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(6, 236);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(80, 13);
+			this.label2.TabIndex = 2;
+			this.label2.Text = "Vertical groups:";
+			// 
+			// tbHorizontalAffiliation
+			// 
+			this.tbHorizontalAffiliation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.tbHorizontalAffiliation.Location = new System.Drawing.Point(6, 91);
+			this.tbHorizontalAffiliation.Multiline = true;
+			this.tbHorizontalAffiliation.Name = "tbHorizontalAffiliation";
+			this.tbHorizontalAffiliation.ReadOnly = true;
+			this.tbHorizontalAffiliation.Size = new System.Drawing.Size(120, 20);
+			this.tbHorizontalAffiliation.TabIndex = 1;
+			// 
+			// label3
+			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label3.AutoSize = true;
+			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label3.Location = new System.Drawing.Point(6, 57);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(60, 13);
+			this.label3.TabIndex = 2;
+			this.label3.Text = "Affiliation";
+			// 
+			// label4
+			// 
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(6, 75);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(57, 13);
+			this.label4.TabIndex = 3;
+			this.label4.Text = "Horizontal:";
+			// 
+			// label5
+			// 
+			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 114);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(45, 13);
+			this.label5.TabIndex = 5;
+			this.label5.Text = "Vertical:";
+			// 
+			// tbVerticalAffiliation
+			// 
+			this.tbVerticalAffiliation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.tbVerticalAffiliation.Location = new System.Drawing.Point(6, 130);
+			this.tbVerticalAffiliation.Multiline = true;
+			this.tbVerticalAffiliation.Name = "tbVerticalAffiliation";
+			this.tbVerticalAffiliation.ReadOnly = true;
+			this.tbVerticalAffiliation.Size = new System.Drawing.Size(120, 20);
+			this.tbVerticalAffiliation.TabIndex = 4;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.tbStatistics);
+			this.Controls.Add(this.gbContainer);
 			this.Controls.Add(this.cbEmpty);
 			this.Controls.Add(this.cbFilled);
 			this.Controls.Add(this.cbNone);
@@ -462,6 +584,8 @@
 			this.splitContainerLeft.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerRight)).EndInit();
 			this.splitContainerRight.ResumeLayout(false);
+			this.gbContainer.ResumeLayout(false);
+			this.gbContainer.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -505,7 +629,17 @@
 		private System.Windows.Forms.CheckBox cbNone;
 		private System.Windows.Forms.CheckBox cbFilled;
 		private System.Windows.Forms.CheckBox cbEmpty;
-		private System.Windows.Forms.TextBox tbStatistics;
+		private System.Windows.Forms.GroupBox gbContainer;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.TextBox tbVerticalAffiliation;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.TextBox tbVerticalGroups;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.TextBox tbHorizontalAffiliation;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox tbHorizontalGroups;
+		private System.Windows.Forms.TextBox tbCoordinates;
 	}
 }
 

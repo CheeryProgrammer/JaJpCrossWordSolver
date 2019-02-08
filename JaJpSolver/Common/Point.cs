@@ -11,6 +11,8 @@ namespace JaJpSolver.Common
 		public CellType PointType { get; private set; }
 		public List<Group> PossibleVerticalGroups { get; private set; }
 		public List<Group> PossibleHorizontalGroups { get; private set; }
+		public Group VerticalGroup { get; private set; }
+		public Group HorizontalGroup { get; private set; }
 
 		public Point()
 		{
@@ -87,6 +89,19 @@ namespace JaJpSolver.Common
 		public void SetNone()
 		{
 			PointType = CellType.None;
+		}
+
+		public void SetGroup(Group g, bool isHorizontal)
+		{
+			if (isHorizontal)
+				HorizontalGroup = g;
+			else
+				VerticalGroup = g;
+		}
+
+		public bool IsGroupDetermined(bool isHorizontal)
+		{
+			return isHorizontal ? HorizontalGroup != null : VerticalGroup != null;
 		}
 	}
 }

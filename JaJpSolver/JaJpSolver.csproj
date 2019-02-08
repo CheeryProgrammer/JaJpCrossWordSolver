@@ -67,6 +67,7 @@
     <Compile Include="Common\CellType.cs" />
     <Compile Include="CrossWordLine.cs" />
     <Compile Include="CrossWordSolver.cs" />
+    <Compile Include="Extensions\PointsExtensions.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="LineProcessors\AffiliationProcessor.cs" />
     <Compile Include="LineProcessors\CompletionProcessor.cs" />

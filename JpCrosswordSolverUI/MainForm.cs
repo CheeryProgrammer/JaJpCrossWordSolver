@@ -76,22 +76,28 @@ namespace JpCrosswordSolverUI
 
 		private void PictureGrid_HoveredPointChanged(int x, int y)
 		{
-			tbStatistics.Clear();
-			var p = _solver.Board.Points[x, y];
-			var statistics = GetPointStatistics(p);
-			tbStatistics.AppendText(statistics);
-		}
+			tbCoordinates.Clear();
+			tbHorizontalAffiliation.Clear();
+			tbVerticalAffiliation.Clear();
+			tbHorizontalGroups.Clear();
+			tbVerticalGroups.Clear();
+			tbCoordinates.Text = $"X: {x}; Y: {y}";
 
-		private string GetPointStatistics(JaJpSolver.Common.Point point)
-		{
-			var sb = new StringBuilder();
-			sb.AppendLine($"Col: {point.X}; row:{point.Y}");
-			sb.AppendLine($"State: {point.PointType}");
-			sb.AppendLine($"Possible vertical groups:");
-			sb.AppendLine(string.Join(Environment.NewLine, point.PossibleVerticalGroups.Select(g=>$"\t{g.Length}")));
-			sb.AppendLine($"Possible horizontal groups:");
-			sb.AppendLine(string.Join(Environment.NewLine, point.PossibleHorizontalGroups.Select(g=>$"\t{g.Length}")));
-			return sb.ToString();
+			var p = _solver.Board.Points[x, y];
+
+			tbHorizontalAffiliation.Text = p.IsGroupDetermined(true)
+				? p.HorizontalGroup.Length.ToString()
+				: "undefined";
+
+			tbVerticalAffiliation.Text = p.IsGroupDetermined(false)
+				? p.VerticalGroup.Length.ToString()
+				: "undefined";
+
+			tbHorizontalGroups.Text = string.Join(", ",
+				p.PossibleHorizontalGroups.Select(g => g.Length));
+
+			tbVerticalGroups.Text = string.Join(", ",
+				p.PossibleVerticalGroups.Select(g => g.Length));
 		}
 
 		private void PictureMoved()
@@ -170,7 +176,7 @@ namespace JpCrosswordSolverUI
 			{
 				_solver.SolveStep();
 				_fieldRenderer.UpdateBoard(_solver.Board);
-				await Task.Delay(1000);
+				await Task.Delay(500);
 			}
 		}
 
