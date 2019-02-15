@@ -191,6 +191,12 @@ namespace JpCrosswordSolverUI.Controls
 
 		#endregion
 
+		protected override void OnMouseEnter(EventArgs e)
+		{
+			Focus();
+			base.OnMouseEnter(e);
+		}
+
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			PrintStatistics(e);
@@ -210,6 +216,8 @@ namespace JpCrosswordSolverUI.Controls
 					DrawManually(e);
 				}
 			}
+
+			base.OnMouseMove(e);
 		}
 
 		private void PrintStatistics(MouseEventArgs e)
@@ -239,11 +247,13 @@ namespace JpCrosswordSolverUI.Controls
 		{
 			if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
 				_controlMover.Begin(e.Location);
+			base.OnMouseDown(e);
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			_controlMover.End();
+			base.OnMouseUp(e);
 		}
 
 		protected override void OnMouseWheel(MouseEventArgs e)
@@ -257,6 +267,7 @@ namespace JpCrosswordSolverUI.Controls
 				ScaleByCoeff(coeff);
 				Scaled?.Invoke(coeff);
 			}
+			base.OnMouseWheel(e);
 		}
 
 		protected override void OnMouseClick(MouseEventArgs e)
@@ -265,6 +276,7 @@ namespace JpCrosswordSolverUI.Controls
 			{
 				DrawManually(e);
 			}
+			base.OnMouseClick(e);
 		}
 
 		private Point _hoveredPoint;

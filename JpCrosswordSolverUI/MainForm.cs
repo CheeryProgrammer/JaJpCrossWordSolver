@@ -176,7 +176,7 @@ namespace JpCrosswordSolverUI
 			{
 				_solver.SolveStep();
 				_fieldRenderer.UpdateBoard(_solver.Board);
-				await Task.Delay(500);
+				await Task.Delay(100);
 			}
 		}
 
