@@ -1,8 +1,7 @@
 ﻿using JaJpSolver.Common;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using JaJpSolver.LineProcessors;
+using JaJpSolver.SolvingHistory;
 
 namespace JaJpSolver
 {
@@ -10,13 +9,13 @@ namespace JaJpSolver
 	{
 		private readonly Point[] _allPoints;
 		private readonly bool _isHorizontal;
-		private readonly IEnumerable<ILineProcessor> _lineProcessors;
+		private readonly ILineProcessor[] _lineProcessors;
 
 		public Group[] Groups { get; }
 
 		public bool Solved => _allPoints.All(p => p.PointType != CellType.None);
 
-		public CrossWordLine(Group[] groups, Point[] allPoints, bool isHorizontal)
+		public CrossWordLine(Group[] groups, Point[] allPoints, bool isHorizontal, ILineProcessor[] lineProcessors)
 		{
 			_isHorizontal = isHorizontal;
 			Groups = groups;
@@ -28,26 +27,31 @@ namespace JaJpSolver
 				_allPoints[i].SetPossibleGroups(Groups.ToList(), _isHorizontal);
 			}
 
-			_lineProcessors = new List<ILineProcessor>
-			{
-				new ShiftProcessor(_isHorizontal),
-				new FillProcessor(_isHorizontal),
-				new AffiliationProcessor(_isHorizontal),
-				new CompletionProcessor(),
-			};
+			_lineProcessors = lineProcessors;
 		}
 
-		public void SolveStep()
+		public bool TrySolveStep(IHistoryFrame historyFrame)
 		{
 			foreach (var lineProcessor in _lineProcessors)
 			{
-				lineProcessor.Process(_allPoints, Groups);
+				if(!lineProcessor.TryProcess(_allPoints, Groups, historyFrame))
+					return false;
 			}
+			return true;
 		}
 
 		public void ResetGroupsOfPoint(int index)
 		{
 			_allPoints[index].SetPossibleGroups(Groups.ToList(), _isHorizontal);
+		}
+
+		public void Reset()
+		{
+			for (int i = 0; i < _allPoints.Length; i++)
+			{
+				_allPoints[i].SetNone();
+				ResetGroupsOfPoint(i);
+			}
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace JaJpSolver.LineProcessors
 	/// <summary>
 	/// Удаляет группы из тех точек, которые не могут ей (группе) принадлежать.
 	/// </summary>
-	class ShiftProcessor : ILineProcessor
+	public class ShiftProcessor : LineProcessorBase
 	{
 		private readonly bool _isHorizontal;
 
@@ -16,10 +16,11 @@ namespace JaJpSolver.LineProcessors
 			_isHorizontal = isHorizontal;
 		}
 
-		public void Process(Point[] points, Group[] groups)
+		protected override bool TryProcessInternal(Point[] points, Group[] groups)
 		{
 			ShiftToBeginAndExcludeGroups(points, groups);
 			ShiftToEndAndExcludeGroups(points, groups);
+			return true;
 		}
 		
 		private void ShiftToBeginAndExcludeGroups(Point[] points, Group[] groups)
@@ -37,14 +38,12 @@ namespace JaJpSolver.LineProcessors
 
 		private void ShiftToOneSideAndExcludeGroups(Point[] points, Group[] groups)
 		{
-			var pointsArr = points;
-			var groupsArr = groups;
 			var currentGroupIndex = 0;
 			var matchesCount = 0;
-			for (int i = 0; i < pointsArr.Length; i++)
+			for (int i = 0; i < points.Length; i++)
 			{
-				var currentPoint = pointsArr[i];
-				var currentGroup = groupsArr[currentGroupIndex];
+				var currentPoint = points[i];
+				var currentGroup = groups[currentGroupIndex];
 				if (currentPoint.CanBelongTo(currentGroup, _isHorizontal))
 				{
 					matchesCount++;
@@ -54,10 +53,11 @@ namespace JaJpSolver.LineProcessors
 						i++;
 
 						matchesCount = 0;
-						if (++currentGroupIndex >= groupsArr.Length)
+						if (++currentGroupIndex >= groups.Length)
 							break;
 
-						ExcludeGroups(pointsArr.Take(i + 1), groupsArr.Skip(currentGroupIndex).ToArray());
+						//ExcludeGroups(points.Take(i + 1), groups.Skip(currentGroupIndex).ToArray());
+						ExcludeGroups(points, 0, i + 1, groups.Skip(currentGroupIndex).ToArray(), _isHorizontal);
 					}
 				}
 			}

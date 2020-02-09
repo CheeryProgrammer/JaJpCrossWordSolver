@@ -71,10 +71,17 @@
     <Compile Include="Group.cs" />
     <Compile Include="LineProcessors\AffiliationProcessor.cs" />
     <Compile Include="LineProcessors\CompletionProcessor.cs" />
+    <Compile Include="LineProcessors\EmptyProcessor.cs" />
     <Compile Include="LineProcessors\FillProcessor.cs" />
     <Compile Include="LineProcessors\ILineProcessor.cs" />
+    <Compile Include="LineProcessors\LineProcessorBase.cs" />
     <Compile Include="LineProcessors\ShiftProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SolvingHistory\CellChangeState.cs" />
+    <Compile Include="SolvingHistory\GroupChangeState.cs" />
+    <Compile Include="SolvingHistory\HistoryFrame.cs" />
+    <Compile Include="SolvingHistory\IHistoryFrame.cs" />
+    <Compile Include="SolvingHistory\IRevertable.cs" />
     <Compile Include="Task\CrossWordLineTask.cs" />
     <Compile Include="Task\CrossWordTask.cs" />
     <Compile Include="Task\CrossWordTaskLoader.cs" />
@@ -82,5 +89,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

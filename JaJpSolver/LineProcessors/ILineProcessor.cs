@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using JaJpSolver.Common;
+using JaJpSolver.SolvingHistory;
 
 namespace JaJpSolver.LineProcessors
 {
-	interface ILineProcessor
+	public interface ILineProcessor
 	{
-		void Process(Point[] points, Group[] groups);
+		bool TryProcess(Point[] points, Group[] groups, IHistoryFrame historyFrame = null);
 	}
 }

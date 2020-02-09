@@ -6,7 +6,7 @@ using JaJpSolver.Extensions;
 namespace JaJpSolver.LineProcessors
 {
 
-	public class AffiliationProcessor: ILineProcessor
+	public class AffiliationProcessor: LineProcessorBase
 	{
 		private readonly bool _isHorizontal;
 
@@ -15,7 +15,7 @@ namespace JaJpSolver.LineProcessors
 			_isHorizontal = isHorizontal;
 		}
 
-		public void Process(Point[] points, Group[] groups)
+		protected override bool TryProcessInternal(Point[] points, Group[] groups)
 		{
 			for (int i = 0; i < points.Length; i++)
 			{
@@ -31,17 +31,19 @@ namespace JaJpSolver.LineProcessors
 					ExcludeFromImpossiblePoints(points, singlePossible.Group, i);
 
 					// remove left groups to right and vice versa
-					var left = points.Take(i);
-					var right = points.Skip(i + 1);
+					var left = points.Take(i).ToArray();
+					var right = points.Skip(i + 1).ToArray();
 					var currentGroupIndex = groups.ToList().IndexOf(singlePossible.Group);
-					foreach (var point in left)
+					ExcludeGroups(left, 0, left.Length, groups.Skip(currentGroupIndex + 1).ToArray(), _isHorizontal);
+					ExcludeGroups(right, 0, right.Length, groups.Take(currentGroupIndex).ToArray(), _isHorizontal);
+					/*foreach (var point in left)
 					{
-						point.ExcludeGroups(groups.Skip(currentGroupIndex + 1).ToArray(), _isHorizontal);
+						point.ExcludeGroups(, _isHorizontal);
 					}
 					foreach (var point in right)
 					{
 						point.ExcludeGroups(groups.Take(currentGroupIndex).ToArray(), _isHorizontal);
-					}
+					}*/
 
 					// for the same group remove other groups from list of possible.
 					if (p.IsGroupDetermined(_isHorizontal))
@@ -67,7 +69,7 @@ namespace JaJpSolver.LineProcessors
 				}
 			}
 
-			ProcessLongest(points, groups);
+			return TryProcessLongest(points, groups);
 		}
 
 		/// <summary>
@@ -75,7 +77,7 @@ namespace JaJpSolver.LineProcessors
 		/// </summary>
 		/// <param name="points"></param>
 		/// <param name="groups"></param>
-		private void ProcessLongest(Point[] points, Group[] groups)
+		private bool TryProcessLongest(Point[] points, Group[] groups)
 		{
 			var maxLength = groups.Max(g => g.Length);
 			var sequences = points.GetFilledSequences().Where(seq => seq.Count == maxLength);
@@ -84,26 +86,31 @@ namespace JaJpSolver.LineProcessors
 				var beforeIndex = points.ToList().IndexOf(sequence.First()) - 1;
 				if (beforeIndex >= 0)
 				{
-					points[beforeIndex].SetEmpty();
+					if (!TrySetState(points[beforeIndex], CellType.Empty))
+						return false;
 				}
 
 				var afterIndex = points.ToList().IndexOf(sequence.Last()) + 1;
 				if (afterIndex < points.Length)
 				{
-					points[afterIndex].SetEmpty();
+					if (!TrySetState(points[afterIndex], CellType.Empty))
+						return false;
 				}
 			}
+			return true;
 		}
 
 		private void ExcludeFromImpossiblePoints(Point[] points, Group g, int index)
 		{
-			for (int i = 0; i < points.Length; i++)
+			/*for (int i = 0; i < points.Length; i++)
 			{
 				if (Math.Abs(index - i) >= g.Length)
 				{
 					points[i].ExcludeGroups(new[] {g}, _isHorizontal);
 				}
-			}
+			}*/
+			var impossiblePoints = points.Where((p, i) => Math.Abs(index - i) >= g.Length).ToArray();
+			ExcludeGroups(impossiblePoints, 0, impossiblePoints.Length, new []{ g }, _isHorizontal);
 		}
 	}
 }

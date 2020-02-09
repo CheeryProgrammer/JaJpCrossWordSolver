@@ -172,12 +172,20 @@ namespace JpCrosswordSolverUI
 
 		private async void BtnSolveStep_Click(object sender, EventArgs e)
 		{
-			while (!_solver.Solved)
+			while (!_solver?.Solved ?? false)
 			{
-				_solver.SolveStep();
+				//var delayTask = Task.Delay(100);
+				if (!_solver.SolveStep())
+				{
+					MessageBox.Show(this, "Autosolving is stopped.", "Error occured");
+					break;
+				}
 				_fieldRenderer.UpdateBoard(_solver.Board);
 				await Task.Delay(100);
 			}
+
+			if(_solver?.Solved ?? false)
+				MessageBox.Show(this, "Puzzle is solved!", "Finish");
 		}
 
 		private void SplitContainerRight_Panel1_Resize(object sender, EventArgs e)
@@ -207,6 +215,24 @@ namespace JpCrosswordSolverUI
 			cbFilled.Image = Resources.Filled;
 			cbNone.Image = Resources.None;
 			_pictureGrid.PaintMode = CellType.Empty;
+		}
+
+		private void BtnReset_Click(object sender, EventArgs e)
+		{
+			_solver?.ResetAll();
+			_fieldRenderer?.UpdateBoard(_solver.Board);
+		}
+
+		private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			_solver?.StepBack();
+			_fieldRenderer?.UpdateBoard(_solver.Board);
+		}
+
+		private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			_solver?.StepForward();
+			_fieldRenderer?.UpdateBoard(_solver.Board);
 		}
 	}
 }

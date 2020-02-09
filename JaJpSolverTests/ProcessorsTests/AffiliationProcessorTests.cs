@@ -16,11 +16,10 @@ namespace JaJpSolverTests.ProcessorsTests
 		public string AffiliationProcessorTest(string groups, IEnumerable<Point> points)
 		{
 			var isHorizontal = false;
-			var line = new CrossWordLine(TestHelper.ParseGroups(groups), points, isHorizontal);
-			line.SolveStep();
 			var processor = new AffiliationProcessor(isHorizontal);
-			processor.Process(points.ToArray(), line.Groups);
-			processor.Process(points.ToArray(), line.Groups);
+			var line = new CrossWordLine(TestHelper.ParseGroups(groups).ToArray(), points.ToArray(), isHorizontal, new[] { processor });
+			line.TrySolveStep();
+			line.TrySolveStep();
 			return points.RenderToString();
 		}
 	}

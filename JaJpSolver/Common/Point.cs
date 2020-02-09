@@ -13,6 +13,8 @@ namespace JaJpSolver.Common
 		public List<Group> PossibleHorizontalGroups { get; private set; }
 		public Group VerticalGroup { get; private set; }
 		public Group HorizontalGroup { get; private set; }
+		public bool IsProcessed { get => PointType != CellType.None; }
+		public bool NoColumnOrRowGroupsPossible { get => !PossibleVerticalGroups.Any() || !PossibleHorizontalGroups.Any(); }
 
 		public Point()
 		{
@@ -48,14 +50,7 @@ namespace JaJpSolver.Common
 			{
 				for (int i = 0; i < groupsToExclude.Length; i++)
 				{
-					var g = groupsToExclude[i];
-					if (possibleGroups.Contains(g))
-						possibleGroups.Remove(g);
-				}
-
-				if (!possibleGroups.Any())
-				{
-					SetEmpty();
+					possibleGroups.Remove(groupsToExclude[i]);
 				}
 			}
 		}
@@ -68,8 +63,6 @@ namespace JaJpSolver.Common
 		public void SetEmpty()
 		{
 			PointType = CellType.Empty;
-			PossibleHorizontalGroups?.Clear();
-			PossibleVerticalGroups?.Clear();
 		}
 
 		public bool IsFilled()

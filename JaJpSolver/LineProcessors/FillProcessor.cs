@@ -4,8 +4,7 @@ using System.Linq;
 
 namespace JaJpSolver.LineProcessors
 {
-
-	class FillProcessor : ILineProcessor
+	public class FillProcessor : LineProcessorBase
 	{
 		private readonly bool _isHorizontal;
 
@@ -14,14 +13,16 @@ namespace JaJpSolver.LineProcessors
 			_isHorizontal = isHorizontal;
 		}
 
-		public void Process(Point[] points, Group[] groups)
+		protected override bool TryProcessInternal(Point[] points, Group[] groups)
 		{
 			for (int i = 0; i < groups.Length; i++)
 			{
 				ExcludeImpossibleLocations(points, groups[i], out int possibleLocationsCount);
 				if (possibleLocationsCount == 1)
-					FillFirstPossibleCells(points, groups[i]);
+					if(!FillFirstPossibleCells(points, groups[i]))
+						return false;
 			}
+			return true;
 		}
 
 		/// <summary>
@@ -41,7 +42,8 @@ namespace JaJpSolver.LineProcessors
 				{
 					foreach (var point in location)
 					{
-						point.ExcludeGroups(new []{g}, _isHorizontal);
+						//point.ExcludeGroups(new []{g}, _isHorizontal);
+						ExcludeGroup(point, g, _isHorizontal);
 					}
 
 					continue;
@@ -86,7 +88,7 @@ namespace JaJpSolver.LineProcessors
 			return location;
 		}
 
-		private void FillFirstPossibleCells(Point[] points, Group g)
+		private bool FillFirstPossibleCells(Point[] points, Group g)
 		{
 			var location = points
 				.SkipWhile(p => !p.CanBelongTo(g, _isHorizontal))
@@ -98,9 +100,12 @@ namespace JaJpSolver.LineProcessors
 				var take = location.Count - (skip << 1);
 				foreach (var point in location.Skip(skip).Take(take))
 				{
-					point.SetFilled();
+					if (!TrySetState(point, CellType.Filled))
+						return false;
 				}
 			}
+
+			return true;
 		}
 	}
 }

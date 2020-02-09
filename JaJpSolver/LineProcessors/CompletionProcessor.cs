@@ -4,9 +4,9 @@ using JaJpSolver.Extensions;
 
 namespace JaJpSolver.LineProcessors
 {
-	class CompletionProcessor : ILineProcessor
+	public class CompletionProcessor : LineProcessorBase
 	{
-		public void Process(Point[] points, Group[] groups)
+		protected override bool TryProcessInternal(Point[] points, Group[] groups)
 		{
 			var filledGroups = points.GetFilledSequences().ToList();
 			if (filledGroups.Count == groups.Length)
@@ -15,10 +15,12 @@ namespace JaJpSolver.LineProcessors
 				{
 					foreach (var point in points.Where(p=>!p.IsFilled()))
 					{
-						point.SetEmpty();
+						if (!TrySetState(point, CellType.Empty))
+							return false;
 					}
 				}
 			}
+			return true;
 		}
 	}
 }

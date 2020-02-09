@@ -17,8 +17,11 @@ namespace JpCrosswordSolverUI.Controls
 
 		public bool TryChangeCell(int x, int y, CellType newType)
 		{
-			var canChange = !(x >= _maxX || y >= _maxY
-			                           || newType.Equals(_gridCells[x, y]?.Value));
+			var canChange = !(x >= _maxX
+				|| y >= _maxY
+				|| x < 0
+				|| y < 0
+				|| newType.Equals(_gridCells[x, y]?.Value));
 
 			if (canChange)
 			{

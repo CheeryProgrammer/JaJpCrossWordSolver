@@ -1,12 +1,10 @@
 ﻿using JaJpSolver;
 using JaJpSolver.Common;
+using JaJpSolver.LineProcessors;
 using NUnit.Framework;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JaJpSolverTests
 {
@@ -18,7 +16,7 @@ namespace JaJpSolverTests
 		{
 			var groups = DataSourceCWLine.GroupsData;
 			var points = DataSourceCWLine.PointsData_10;
-			var cwLine = new CrossWordLine(groups, points, true);
+			var cwLine = new CrossWordLine(groups, points, true, null);
 			foreach(var point in points)
 			{
 				var possible = point.PossibleHorizontalGroups;
@@ -35,9 +33,18 @@ namespace JaJpSolverTests
 		[TestCaseSource(typeof(DataSourceCWLine), "TestCases")]
 		public string SolveStep_Test(string lineData, IEnumerable<Point> points)
 		{
-			var groups = TestHelper.ParseGroups(lineData);
-			var cwLine = new CrossWordLine(groups, points, true);
-			cwLine.SolveStep();
+			var groups = TestHelper.ParseGroups(lineData).ToArray();
+
+			var columnProcessors = new ILineProcessor[]
+			{
+				new ShiftProcessor(false),
+				new FillProcessor(false),
+				new AffiliationProcessor(false),
+				new CompletionProcessor(),
+			};
+
+			var cwLine = new CrossWordLine(groups, points.ToArray(), true, columnProcessors);
+			cwLine.TrySolveStep();
 			return points.RenderToString();
 		}
 	}
