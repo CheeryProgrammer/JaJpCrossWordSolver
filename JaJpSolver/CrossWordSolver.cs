@@ -10,61 +10,43 @@ namespace JaJpSolver
 {
 	public class CrossWordSolver
 	{
-		private CrossWordTask _task;
-		private Board _board;
-		private IEnumerable<CrossWordLine> _colsLines;
-		private IEnumerable<CrossWordLine> _rowsLines;
+		private CrossWordLine[] _colsLines;
+		private CrossWordLine[] _rowsLines;
 
-		public Board Board { get => _board; }
+		public Board Board { get; }
 		public bool Solved => _colsLines.All(line => line.Solved);
 
 		public CrossWordSolver(CrossWordTask task)
 		{
-			_task = task;
-			InitializeBoard(task);
-			_colsLines = ParseColsLines(task).ToList();
-			_rowsLines = ParseRowsLines(task).ToList();
-		}
-
-		private void InitializeBoard(CrossWordTask task)
-		{
-			_board = new Board(task.ColumnsTasks.Length, task.RowsTasks.Length);
+			Board = new Board(task.ColumnsTasks.Length, task.RowsTasks.Length);
+			_colsLines = ParseColsLines(task).ToArray();
+			_rowsLines = ParseRowsLines(task).ToArray();
 		}
 
 		private IEnumerable<CrossWordLine> ParseColsLines(CrossWordTask task)
 		{
-			var cols = task.ColumnsTasks;
-			for (int colIndex = 0; colIndex < cols.Length; colIndex++)
+			CrossWordLineTask[] colsTasks = task.ColumnsTasks;
+			CrossWordLine[] columns = new CrossWordLine[colsTasks.Length];
+			for (int colIndex = 0; colIndex < colsTasks.Length; colIndex++)
 			{
-				var linePoints = GetColumnFromBoard(Board.Points, colIndex);
-				yield return new CrossWordLine(cols[colIndex].Select(gLen => new Group(gLen)), linePoints, false);
+				Point[] linePoints = Board.GetColumn(colIndex);
+				Group[] groups = colsTasks[colIndex].Select(gLen => new Group(gLen)).ToArray();
+				columns[colIndex] = new CrossWordLine(groups, linePoints, false);
 			}
+			return columns;
 		}
 
-		private IEnumerable<CrossWordLine> ParseRowsLines(CrossWordTask task)
+		private CrossWordLine[] ParseRowsLines(CrossWordTask task)
 		{
-			var rows = task.RowsTasks;
-			for(int rowIndex = 0; rowIndex < rows.Length; rowIndex++)
+			CrossWordLineTask[] rowsTasks = task.RowsTasks;
+			CrossWordLine[] rows = new CrossWordLine[rowsTasks.Length];
+			for (int rowIndex = 0; rowIndex < rowsTasks.Length; rowIndex++)
 			{
-				var linePoints = GetRowFromBoard(Board.Points, rowIndex);
-				yield return new CrossWordLine(rows[rowIndex].Select(gLen=> new Group(gLen)), linePoints, true);
+				Point[] linePoints = Board.GetRow(rowIndex);
+				Group[] groups = rowsTasks[rowIndex].Select(gLen => new Group(gLen)).ToArray();
+				rows[rowIndex] = new CrossWordLine(groups, linePoints, true);
 			}
-		}
-
-		private IEnumerable<Point> GetRowFromBoard(Point[,] points, int rowIndex)
-		{
-			for (int i = 0; i < points.GetLength(0); i++)
-			{
-				yield return points[i, rowIndex];
-			}
-		}
-
-		private IEnumerable<Point> GetColumnFromBoard(Point[,] points, int colIndex)
-		{
-			for (int i = 0; i < points.GetLength(1); i++)
-			{
-				yield return points[colIndex, i];
-			}
+			return rows;
 		}
 
 		public void SolveStep()
@@ -80,18 +62,20 @@ namespace JaJpSolver
 			}
 		}
 
-		public void SetManually(int x, int y, CellType newCellType)
+		public void SetManually(int colIndex, int rowIndex, CellType newCellType)
 		{
+			_colsLines[rowIndex].ResetGroupsOfPoint(colIndex);
+			_rowsLines[colIndex].ResetGroupsOfPoint(rowIndex);
 			switch (newCellType)
 			{
 				case CellType.None:
-					Board.Points[x, y].SetNone();
+					Board.SetNone(colIndex, rowIndex);
 					break;
 				case CellType.Empty:
-					Board.Points[x, y].SetEmpty();
+					Board.SetEmpty(colIndex, rowIndex);
 					break;
 				case CellType.Filled:
-					Board.Points[x, y].SetFilled();
+					Board.SetFilled(colIndex, rowIndex);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(newCellType), newCellType, null);

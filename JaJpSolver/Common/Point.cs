@@ -26,19 +26,18 @@ namespace JaJpSolver.Common
 			PointType = CellType.None;
 		}
 
-		internal void SetPossibleGroups(IEnumerable<Group> groups, bool areHorizontal)
+		internal void SetPossibleGroups(List<Group> groups, bool areHorizontal)
 		{
 			if (areHorizontal)
-				PossibleHorizontalGroups = groups.ToList();
+				PossibleHorizontalGroups = groups;
 			else
-				PossibleVerticalGroups = groups.ToList();
+				PossibleVerticalGroups = groups;
 		}
 
-		internal bool BelongsTo(Group group, bool isHorizontal)
+		internal bool CanBelongTo(Group group, bool isHorizontal)
 		{
 			var possibleGroups = isHorizontal ? PossibleHorizontalGroups : PossibleVerticalGroups;
-
-			return possibleGroups.Contains(group);
+			return possibleGroups.Any(g => ReferenceEquals(g, group));
 		}
 
 		public void ExcludeGroups(Group[] groupsToExclude, bool areHorizontal)

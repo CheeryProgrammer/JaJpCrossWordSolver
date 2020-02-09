@@ -73,7 +73,7 @@ namespace JaJpSolver.Task
 				}
 			}
 
-			task = new CrossWordTask(colsLineTasks, rowsLineTasks);
+			task = new CrossWordTask(colsLineTasks.ToArray(), rowsLineTasks.ToArray());
 
 			return true;
 		}

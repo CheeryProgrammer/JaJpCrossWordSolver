@@ -13,18 +13,19 @@ namespace JaJpSolver
 		private readonly IEnumerable<ILineProcessor> _lineProcessors;
 
 		public Group[] Groups { get; }
+
 		public bool Solved => _allPoints.All(p => p.PointType != CellType.None);
 
-		public CrossWordLine(IEnumerable<Group> groups, IEnumerable<Point> allPoints, bool isHorizontal)
+		public CrossWordLine(Group[] groups, Point[] allPoints, bool isHorizontal)
 		{
 			_isHorizontal = isHorizontal;
-			Groups = groups.ToArray();
+			Groups = groups;
 
-			_allPoints = allPoints.ToArray();
+			_allPoints = allPoints;
 
 			for (int i = 0; i < _allPoints.Length; i++)
 			{
-				_allPoints[i].SetPossibleGroups(Groups, _isHorizontal);
+				_allPoints[i].SetPossibleGroups(Groups.ToList(), _isHorizontal);
 			}
 
 			_lineProcessors = new List<ILineProcessor>
@@ -38,16 +39,15 @@ namespace JaJpSolver
 
 		public void SolveStep()
 		{
-			if (_allPoints[0].Y == 50)
-			{
-				var g = Groups[4];
-				var possible = _allPoints.Where(p => p.BelongsTo(g, _isHorizontal)).ToList();
-			}
-
 			foreach (var lineProcessor in _lineProcessors)
 			{
 				lineProcessor.Process(_allPoints, Groups);
 			}
+		}
+
+		public void ResetGroupsOfPoint(int index)
+		{
+			_allPoints[index].SetPossibleGroups(Groups.ToList(), _isHorizontal);
 		}
 	}
 }

@@ -37,15 +37,15 @@ namespace JaJpSolver.LineProcessors
 
 		private void ShiftToOneSideAndExcludeGroups(Point[] points, Group[] groups)
 		{
-			var pointsArr = points.ToArray();
-			var groupsArr = groups.ToArray();
+			var pointsArr = points;
+			var groupsArr = groups;
 			var currentGroupIndex = 0;
 			var matchesCount = 0;
 			for (int i = 0; i < pointsArr.Length; i++)
 			{
 				var currentPoint = pointsArr[i];
 				var currentGroup = groupsArr[currentGroupIndex];
-				if (currentPoint.BelongsTo(currentGroup, _isHorizontal))
+				if (currentPoint.CanBelongTo(currentGroup, _isHorizontal))
 				{
 					matchesCount++;
 					if (matchesCount >= currentGroup.Length)

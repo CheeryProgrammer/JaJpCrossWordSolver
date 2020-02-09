@@ -69,12 +69,12 @@ namespace JaJpSolver.LineProcessors
 		{
 			List<Point> location = null;
 
-			while (index < points.Length && !points[index].BelongsTo(g, _isHorizontal))
+			while (index < points.Length && !points[index].CanBelongTo(g, _isHorizontal))
 			{
 				index++;
 			}
 
-			while (index < points.Length && points[index].BelongsTo(g, _isHorizontal))
+			while (index < points.Length && points[index].CanBelongTo(g, _isHorizontal))
 			{
 				if (location == null)
 				{
@@ -89,8 +89,8 @@ namespace JaJpSolver.LineProcessors
 		private void FillFirstPossibleCells(Point[] points, Group g)
 		{
 			var location = points
-				.SkipWhile(p => !p.BelongsTo(g, _isHorizontal))
-				.TakeWhile(p => p.BelongsTo(g, _isHorizontal)).ToList();
+				.SkipWhile(p => !p.CanBelongTo(g, _isHorizontal))
+				.TakeWhile(p => p.CanBelongTo(g, _isHorizontal)).ToList();
 
 			if (location.Count < (g.Length << 1))
 			{
