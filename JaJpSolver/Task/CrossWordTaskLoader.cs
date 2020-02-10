@@ -63,9 +63,7 @@ namespace JaJpSolver.Task
 						colsLineTasks.Add(new CrossWordLineTask());
 
 					for (int i = 0; i < colsLineTasks.Count; i++)
-					{
 						colsLineTasks[i].Add(numbers[i]);
-					}
 				}
 				else
 				{
