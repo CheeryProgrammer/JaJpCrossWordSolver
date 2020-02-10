@@ -56,18 +56,9 @@ namespace JaJpSolver.LineProcessors
 						if (++currentGroupIndex >= groups.Length)
 							break;
 
-						//ExcludeGroups(points.Take(i + 1), groups.Skip(currentGroupIndex).ToArray());
 						ExcludeGroups(points, 0, i + 1, groups.Skip(currentGroupIndex).ToArray(), _isHorizontal);
 					}
 				}
-			}
-		}
-
-		private void ExcludeGroups(IEnumerable<Point> points, Group[] groupsToExclude)
-		{
-			foreach (var point in points)
-			{
-				point.ExcludeGroups(groupsToExclude, _isHorizontal);
 			}
 		}
 	}

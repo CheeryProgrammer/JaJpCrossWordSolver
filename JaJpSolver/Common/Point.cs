@@ -39,20 +39,21 @@ namespace JaJpSolver.Common
 		internal bool CanBelongTo(Group group, bool isHorizontal)
 		{
 			var possibleGroups = isHorizontal ? PossibleHorizontalGroups : PossibleVerticalGroups;
-			return possibleGroups.Any(g => ReferenceEquals(g, group));
+			return possibleGroups.Contains(group);
 		}
 
 		public void ExcludeGroups(Group[] groupsToExclude, bool areHorizontal)
 		{
 			var possibleGroups = areHorizontal ? PossibleHorizontalGroups : PossibleVerticalGroups;
 
-			if (possibleGroups.Any())
-			{
-				for (int i = 0; i < groupsToExclude.Length; i++)
-				{
-					possibleGroups.Remove(groupsToExclude[i]);
-				}
-			}
+			for (int i = 0; i < groupsToExclude.Length; i++)
+				possibleGroups.Remove(groupsToExclude[i]);
+		}
+
+		public bool TryExcludeGroup(Group group, bool areHorizontal)
+		{
+			var possibleGroups = areHorizontal ? PossibleHorizontalGroups : PossibleVerticalGroups;
+			return possibleGroups.Remove(group);
 		}
 
 		public void SetFilled()

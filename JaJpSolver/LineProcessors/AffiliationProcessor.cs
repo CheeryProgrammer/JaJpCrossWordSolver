@@ -36,14 +36,6 @@ namespace JaJpSolver.LineProcessors
 					var currentGroupIndex = groups.ToList().IndexOf(singlePossible.Group);
 					ExcludeGroups(left, 0, left.Length, groups.Skip(currentGroupIndex + 1).ToArray(), _isHorizontal);
 					ExcludeGroups(right, 0, right.Length, groups.Take(currentGroupIndex).ToArray(), _isHorizontal);
-					/*foreach (var point in left)
-					{
-						point.ExcludeGroups(, _isHorizontal);
-					}
-					foreach (var point in right)
-					{
-						point.ExcludeGroups(groups.Take(currentGroupIndex).ToArray(), _isHorizontal);
-					}*/
 
 					// for the same group remove other groups from list of possible.
 					if (p.IsGroupDetermined(_isHorizontal))
@@ -102,15 +94,11 @@ namespace JaJpSolver.LineProcessors
 
 		private void ExcludeFromImpossiblePoints(Point[] points, Group g, int index)
 		{
-			/*for (int i = 0; i < points.Length; i++)
+			for (int i = 0; i < points.Length; i++)
 			{
 				if (Math.Abs(index - i) >= g.Length)
-				{
-					points[i].ExcludeGroups(new[] {g}, _isHorizontal);
-				}
-			}*/
-			var impossiblePoints = points.Where((p, i) => Math.Abs(index - i) >= g.Length).ToArray();
-			ExcludeGroups(impossiblePoints, 0, impossiblePoints.Length, new []{ g }, _isHorizontal);
+					ExcludeGroup(points[i], g, _isHorizontal);
+			}
 		}
 	}
 }

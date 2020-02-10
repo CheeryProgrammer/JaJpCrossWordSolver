@@ -39,29 +39,26 @@ namespace JaJpSolver.LineProcessors
 
 		public void ExcludeGroups(Point[] points, int startIndex, int count, Group[] groups, bool areHorizontal)
 		{
-			for (int i = startIndex; i < count; i++)
+			var maxIndex = startIndex + count;
+			for (int i = startIndex; i < maxIndex; i++)
 			{
-				var existed = areHorizontal ? points[i].PossibleHorizontalGroups : points[i].PossibleVerticalGroups;
-				var toExlude = groups.Intersect(existed).ToArray();
+				var excluded = new List<Group>();
 
-				if (toExlude.Length > 0)
+				for (int groupdIndex = 0; groupdIndex < groups.Length; groupdIndex++)
 				{
-					_historyFrame?.Push(new GroupChangeState(points[i], toExlude, areHorizontal, true));
-					points[i].ExcludeGroups(toExlude, areHorizontal);
+					if (points[i].TryExcludeGroup(groups[groupdIndex], areHorizontal))
+						excluded.Add(groups[groupdIndex]);
 				}
+
+				if (excluded.Count > 0)
+					_historyFrame?.Push(new GroupChangeState(points[i], excluded.ToArray(), areHorizontal, true));
 			}
 		}
 
 		public void ExcludeGroup(Point point, Group group, bool areHorizontal)
 		{
-			var existed = areHorizontal ? point.PossibleHorizontalGroups : point.PossibleVerticalGroups;
-
-			if (existed.Contains(group))
-			{
-				var groups = new[] { group };
-				_historyFrame?.Push(new GroupChangeState(point, groups, areHorizontal, true));
-				point.ExcludeGroups(groups, areHorizontal);
-			}
+			if(point.TryExcludeGroup(group, areHorizontal))
+				_historyFrame?.Push(new GroupChangeState(point, new [] { group }, areHorizontal, true));
 		}
 	}
 }
