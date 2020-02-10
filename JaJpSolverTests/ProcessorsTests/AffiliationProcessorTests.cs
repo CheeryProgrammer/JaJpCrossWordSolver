@@ -18,8 +18,8 @@ namespace JaJpSolverTests.ProcessorsTests
 			var isHorizontal = false;
 			var processor = new AffiliationProcessor(isHorizontal);
 			var line = new CrossWordLine(TestHelper.ParseGroups(groups).ToArray(), points.ToArray(), isHorizontal, new[] { processor });
-			line.TrySolveStep();
-			line.TrySolveStep();
+			line.TrySolveStep(null);
+			line.TrySolveStep(null);
 			return points.RenderToString();
 		}
 	}

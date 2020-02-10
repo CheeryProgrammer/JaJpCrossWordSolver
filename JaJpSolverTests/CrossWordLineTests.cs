@@ -44,7 +44,7 @@ namespace JaJpSolverTests
 			};
 
 			var cwLine = new CrossWordLine(groups, points.ToArray(), true, columnProcessors);
-			cwLine.TrySolveStep();
+			cwLine.TrySolveStep(null);
 			return points.RenderToString();
 		}
 	}

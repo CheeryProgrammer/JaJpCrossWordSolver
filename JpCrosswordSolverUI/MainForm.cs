@@ -9,6 +9,7 @@ using JaJpSolver.Common;
 using JpCrosswordSolverUI.Controls;
 using JpCrosswordSolverUI.Properties;
 using Point = System.Drawing.Point;
+using System.Drawing;
 
 namespace JpCrosswordSolverUI
 {
@@ -174,18 +175,31 @@ namespace JpCrosswordSolverUI
 		{
 			while (!_solver?.Solved ?? false)
 			{
-				//var delayTask = Task.Delay(100);
+				var delayTask = Task.Delay(100);
 				if (!_solver.SolveStep())
 				{
 					MessageBox.Show(this, "Autosolving is stopped.", "Error occured");
 					break;
 				}
 				_fieldRenderer.UpdateBoard(_solver.Board);
-				await Task.Delay(100);
+				await delayTask;// Task.Delay(100);
 			}
 
-			if(_solver?.Solved ?? false)
+			if (_solver?.Solved ?? false)
+			{
+				var points = _solver.Board.Points;
+				Bitmap bitmap = new Bitmap(points.GetLength(0), points.GetLength(1));
+				for (int x = 0; x < bitmap.Width; x++)
+				{
+					for (int y = 0; y < bitmap.Height; y++)
+					{
+						bitmap.SetPixel(x, y, points[x, y].IsFilled() ? Color.Black : Color.Transparent);
+					}
+				}
 				MessageBox.Show(this, "Puzzle is solved!", "Finish");
+				splitContainerLeft.Panel1.BackgroundImage = bitmap;
+				splitContainerLeft.Panel1.BackgroundImageLayout = ImageLayout.Zoom;
+			}
 		}
 
 		private void SplitContainerRight_Panel1_Resize(object sender, EventArgs e)
