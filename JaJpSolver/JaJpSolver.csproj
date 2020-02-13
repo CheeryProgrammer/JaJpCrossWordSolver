@@ -70,7 +70,6 @@
     <Compile Include="CrossWordSolver.cs" />
     <Compile Include="Extensions\PointsExtensions.cs" />
     <Compile Include="Group.cs" />
-    <Compile Include="ImageTaskParser\TaskParser.cs" />
     <Compile Include="LineProcessors\AffiliationProcessor.cs" />
     <Compile Include="LineProcessors\CompletionProcessor.cs" />
     <Compile Include="LineProcessors\EmptyProcessor.cs" />

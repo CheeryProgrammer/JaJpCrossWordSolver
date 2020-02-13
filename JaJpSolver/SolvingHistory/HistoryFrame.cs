@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace JaJpSolver.SolvingHistory
 {
 	public class HistoryFrame : IHistoryFrame, IRevertable
 	{
-		private Stack<IRevertable> _historyBackStack;
-		private Stack<IRevertable> _historyForwardStack;
+		private ConcurrentStack<IRevertable> _historyBackStack;
+		private ConcurrentStack<IRevertable> _historyForwardStack;
 
 		public HistoryFrame()
 		{
-			_historyBackStack = new Stack<IRevertable>();
-			_historyForwardStack = new Stack<IRevertable>();
+			_historyBackStack = new ConcurrentStack<IRevertable>();
+			_historyForwardStack = new ConcurrentStack<IRevertable>();
 		}
 
 		public void Push(IRevertable cellChangeState)
@@ -26,7 +27,7 @@ namespace JaJpSolver.SolvingHistory
 		{
 			if (_historyBackStack.Any())
 			{
-				var revert = _historyBackStack.Pop();
+				_historyBackStack.TryPop(out IRevertable revert);
 				var undoRevert = revert.Revert();
 				_historyForwardStack.Push(undoRevert);
 			}
@@ -36,7 +37,7 @@ namespace JaJpSolver.SolvingHistory
 		{
 			if (_historyForwardStack.Any())
 			{
-				var revert = _historyForwardStack.Pop();
+				_historyForwardStack.TryPop(out IRevertable revert);
 				var undoRevert = revert.Revert();
 				_historyBackStack.Push(undoRevert);
 			}
@@ -46,7 +47,7 @@ namespace JaJpSolver.SolvingHistory
 		{
 			for (int i = 0; _historyBackStack.Count > 0; i++)
 			{
-				var revert = _historyBackStack.Pop();
+				_historyBackStack.TryPop(out IRevertable revert);
 				var undoRevert = revert.Revert();
 				_historyForwardStack.Push(undoRevert);
 			}
@@ -56,7 +57,7 @@ namespace JaJpSolver.SolvingHistory
 		{
 			for (int i = 0; _historyForwardStack.Count > 0; i++)
 			{
-				var revert = _historyForwardStack.Pop();
+				_historyForwardStack.TryPop(out IRevertable revert);
 				var undoRevert = revert.Revert();
 				_historyBackStack.Push(undoRevert);
 			}
@@ -68,7 +69,7 @@ namespace JaJpSolver.SolvingHistory
 
 			for (int i = 0; _historyBackStack.Count > 0; i++)
 			{
-				var revert = _historyBackStack.Pop();
+				_historyBackStack.TryPop(out IRevertable revert);
 				var undoRevert = revert.Revert();
 				revertHistory._historyBackStack.Push(undoRevert);
 			}

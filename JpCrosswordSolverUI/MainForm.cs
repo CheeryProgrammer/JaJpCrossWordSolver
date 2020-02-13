@@ -10,6 +10,7 @@ using JpCrosswordSolverUI.Controls;
 using JpCrosswordSolverUI.Properties;
 using Point = System.Drawing.Point;
 using System.Drawing;
+using System.IO;
 
 namespace JpCrosswordSolverUI
 {
@@ -37,7 +38,7 @@ namespace JpCrosswordSolverUI
 			using (OpenFileDialog openDialog = new OpenFileDialog())
 			{
 				openDialog.CheckPathExists = true;
-				openDialog.Filter = "Text file|*.txt";
+				openDialog.Filter = "Text file|*.txt|Image|*.png|Image|*.bmp";
 				openDialog.Multiselect = false;
 				if(openDialog.ShowDialog() == DialogResult.OK)
 				{
@@ -166,8 +167,18 @@ namespace JpCrosswordSolverUI
 
 		private CrossWordTask ParseTask(string file)
 		{
+			var extension = Path.GetExtension(file);
+
 			var taskLoader = new CrossWordTaskLoader();
-			taskLoader.TryLoadFromFile(file, out CrossWordTask task);
+			CrossWordTask task;
+			if (extension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
+				|| extension.Equals(".png", StringComparison.OrdinalIgnoreCase))
+			{
+				Bitmap bmp = (Bitmap)Bitmap.FromFile(file);
+				task = CrossWordTaskLoader.ParseFromBitmap(bmp);
+			}
+			else
+				taskLoader.TryLoadFromFile(file, out task);
 			return task;
 		}
 
@@ -175,14 +186,14 @@ namespace JpCrosswordSolverUI
 		{
 			while (!_solver?.Solved ?? false)
 			{
-				var delayTask = Task.Delay(100);
+				//var delayTask = Task.Delay(100);
 				if (!_solver.SolveStep())
 				{
 					MessageBox.Show(this, "Autosolving is stopped.", "Error occured");
 					break;
 				}
 				_fieldRenderer.UpdateBoard(_solver.Board);
-				await delayTask;// Task.Delay(100);
+				await  Task.Delay(100);
 			}
 
 			if (_solver?.Solved ?? false)
